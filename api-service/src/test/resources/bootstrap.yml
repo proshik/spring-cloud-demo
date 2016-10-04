@@ -1,0 +1,23 @@
+server:
+    port: 9010
+
+#not nesassury
+spring:
+  cloud:
+    config:
+      enabled: false
+      discovery:
+        enabled: false
+
+#not nesassury
+ribbon:
+  eureka:
+    enabled: false
+
+resourse-service:
+  ribbon:
+    listOfServers: localhost:9020
+
+logging:
+  level:
+    org.springframework: DEBUG

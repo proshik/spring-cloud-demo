@@ -11,6 +11,7 @@
 
     <modules>
         <module>api-service</module>
+        <module>account-service</module>
     </modules>
 
 
