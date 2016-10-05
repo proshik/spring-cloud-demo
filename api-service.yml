@@ -1,5 +1,0 @@
-server:
-    port: 9040
-logging:
-  level:
-    org.springframework: DEBUG
