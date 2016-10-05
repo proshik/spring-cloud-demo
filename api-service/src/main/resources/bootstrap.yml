@@ -20,26 +20,20 @@ spring:
       enabled: false
       discovery:
         enabled: false
-
 server:
     port: 9010
-
 account-service:
   ribbon:
     listOfServers: localhost:9020
-
 logging:
   level:
     org.springframework: DEBUG
-
 eureka:
   client:
     enabled: false
-
 ribbon:
   eureka:
     enabled: false
-
 feign:
   hystrix:
     enabled: false

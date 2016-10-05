@@ -1,5 +1,6 @@
-server:
-    port: 9020
+eureka:
+  client:
+    enabled: false
 
 logging:
   level:
