@@ -4,12 +4,13 @@ spring:
   cloud:
     config:
       uri: http://config:8888
-      fail-fast: true
       password: password
       username: user
+      fail-fast: true
       retry:
+        multiplier: 1.5
         initial-interval: 2000
-        max-attempts: 6
+        max-interval: 10000
 
 ---
 spring:
