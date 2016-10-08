@@ -2,15 +2,14 @@ spring:
   application:
     name: api-service
   cloud:
-      config:
-        uri: http://config:8888
-        fail-fast: true
-        password: password
-        username: user
-
-logging:
-  level:
-    org.springframework: INFO
+    config:
+      uri: http://config:8888
+      fail-fast: true
+      password: password
+      username: user
+      retry:
+        initial-interval: 2000
+        max-attempts: 6
 
 ---
 spring:

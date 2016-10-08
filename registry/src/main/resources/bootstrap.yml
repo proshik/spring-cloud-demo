@@ -7,11 +7,6 @@ spring:
       fail-fast: true
       password: password
       username: user
-
-eureka:
-  instance:
-    prefer-ip-address: true
-  client:
-    registerWithEureka: false
-    fetchRegistry: false
-
+      retry:
+        initial-interval: 2000
+        max-attempts: 6

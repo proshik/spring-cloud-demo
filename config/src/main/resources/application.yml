@@ -7,10 +7,6 @@ hystrix:
             timeoutInMilliseconds: 10000
 
 eureka:
-  instance:
-  #maybe will need change this value on default=30 in production
-    lease-renewal-interval-in-seconds: 10
-    prefer-ip-address: true
   client:
     serviceUrl:
       defaultZone: http://localhost:8761/eureka/
