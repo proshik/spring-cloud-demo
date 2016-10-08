@@ -14,5 +14,6 @@ public class AccountApplicationTest {
 
     @Test
     public void contextLoads() {
+        System.out.println("Success load context");
     }
 }
