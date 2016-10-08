@@ -1,6 +1,5 @@
 package ru.proshik.spring_cloud_demo.account;
 
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -13,7 +13,7 @@ import ru.proshik.spring_cloud_demo.account.model.ResourceOut;
 public class AccountController {
 
     @GetMapping("account")
-    @HystrixCommand(fallbackMethod = "account")
+    @HystrixCommand
     public ResponseEntity getAccount() {
         return ResponseEntity.ok(new ResourceOut("anyKey", "value"));
     }
