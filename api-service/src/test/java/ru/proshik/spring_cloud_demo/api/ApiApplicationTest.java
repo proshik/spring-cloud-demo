@@ -5,6 +5,8 @@ import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import static org.junit.Assert.assertEquals;
+
 /**
  * Created by proshik on 04.10.16.
  */
@@ -14,6 +16,7 @@ public class ApiApplicationTest {
 
     @Test
     public void contextLoads() {
-        System.out.println("Success load context");
+        assertEquals(true, true);
     }
+
 }

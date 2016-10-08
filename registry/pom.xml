@@ -7,6 +7,9 @@
     <groupId>ru.proshik.spring-cloud-demo</groupId>
     <artifactId>registry</artifactId>
     <version>0.1.2-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
+    <name>registry</name>
 
     <parent>
         <groupId>org.springframework.boot</groupId>

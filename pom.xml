@@ -13,6 +13,7 @@
         <module>account-service</module>
         <module>config</module>
         <module>registry</module>
+        <module>monitoring</module>
     </modules>
 
 </project>

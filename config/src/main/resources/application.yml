@@ -11,6 +11,10 @@ eureka:
     serviceUrl:
       defaultZone: http://localhost:8761/eureka/
 
+spring:
+  rabbitmq:
+    host: localhost
+
 
 #security:
 #  oauth2:
