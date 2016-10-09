@@ -24,7 +24,7 @@ public class AccountControllerTest {
 
     @Test
     public void getAccount() {
-        ResponseEntity<ResourceOut> response = template.getForEntity("/account", ResourceOut.class);
+        ResponseEntity<ResourceOut> response = template.getForEntity("/v1/account", ResourceOut.class);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(new ResourceOut("anyKey", "value"), response.getBody());

@@ -31,7 +31,7 @@ public class ApiControllerTest {
     public void api() {
         when(accountClient.get()).thenReturn(new ResourceOut("key", "value"));
 
-        ResponseEntity<ResourceOut> response = template.getForEntity("/api", ResourceOut.class);
+        ResponseEntity<ResourceOut> response = template.getForEntity("/v1/api", ResourceOut.class);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(new ResourceOut("key", "value"), response.getBody());
