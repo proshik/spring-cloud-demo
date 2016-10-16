@@ -1,0 +1,29 @@
+version: '2'
+services:
+  rabbitmq:
+    ports:
+      - 5672:5672
+
+  config:
+    build: config
+    ports:
+      - 8888:8888
+
+  registry:
+    build: registry
+
+  gateway:
+    build: gateway
+
+  monitoring:
+    build: monitoring
+
+  account-service:
+    build: account-service
+    ports:
+      - 9020:9020
+
+  api-service:
+    build: api-service
+    ports:
+      - 9010:9010

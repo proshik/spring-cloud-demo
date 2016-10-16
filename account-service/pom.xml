@@ -116,6 +116,9 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>1.4.0.RELEASE</version>
+                <configuration>
+                    <finalName>account-service</finalName>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.jacoco</groupId>

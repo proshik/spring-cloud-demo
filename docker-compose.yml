@@ -1,0 +1,80 @@
+version: '2'
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    restart: always
+    ports:
+      - 15672:15672
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+
+  config:
+    environment:
+      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
+      GITHUB_PASSWORD: $GITHUB_PASSWORD
+      GITHUB_USERNAME: $GITHUB_USERNAME
+    image: proshik/spring-cloud-demo_config
+    restart: always
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+
+  registry:
+    environment:
+      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
+    image: proshik/spring-cloud-demo-registry
+    restart: always
+    ports:
+      - 8761:8761
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+
+  gateway:
+    environment:
+      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
+    image: proshik/spring-cloud-demo-gateway
+    restart: always
+    ports:
+      - 80:4000
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+
+  monitoring:
+    environment:
+      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
+    image: proshik/spring-cloud-demo-monitoring
+    restart: always
+    ports:
+      - 8786:8787
+      - 8989:8989
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+
+  account-service:
+    environment:
+      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
+    image: proshik/spring-cloud-demo-account-service
+    restart: always
+    logging:
+          options:
+            max-size: "10m"
+            max-file: "10"
+
+  api-service:
+    environment:
+      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
+    image: proshik/spring-cloud-demo-api-service
+    restart: always
+    logging:
+          options:
+            max-size: "10m"
+            max-file: "10"

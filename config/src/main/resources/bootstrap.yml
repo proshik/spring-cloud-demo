@@ -1,19 +1,19 @@
+server:
+  port: 8888
+
+security:
+  user:
+    password: ${CONFIG_SERVICE_PASSWORD}
+
 spring:
   cloud:
     config:
       server:
         git:
           uri: https://github.com/proshik/config-repo
-          username: {GITHUB_USERNAME}
-          password: {GITHUB_PASSWORD}
+          username: ${GITHUB_USERNAME}
+          password: ${GITHUB_PASSWORD}
           search-paths: spring-cloud-demo
-
-server:
-  port: 8888
-
-security:
-  user:
-    password: password
 
 logging:
   level:

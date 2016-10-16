@@ -4,7 +4,7 @@ spring:
   cloud:
     config:
       uri: http://config:8888
-      password: password
+      password: {CONFIG_SERVICE_PASSWORD}
       username: user
       fail-fast: true
       retry:
@@ -20,6 +20,14 @@ spring:
       enabled: false
       discovery:
         enabled: false
+    bus:
+      enabled: false
+  rabbitmq:
+    listener:
+      auto-startup: false
+    template:
+      retry:
+        enabled: false
 server:
     port: 9020
 logging:
@@ -34,3 +42,7 @@ ribbon:
 feign:
   hystrix:
     enabled: false
+hystrix:
+  stream:
+    queue:
+      enabled: false
