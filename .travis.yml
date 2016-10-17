@@ -6,8 +6,6 @@ services:
 language: java
 jdk: oraclejdk8
 
-script: mvn clean install -Dmaven.test.skip=true
-
 env:
   global:
     - secure: "lYGI9llvslYn8Xsln1ya1qw5ZVSUAiLnLPEALRPj9k8zjzSbXtzKEsZRWbFaGxTUhSPAQOnaU4bBhVuaOL922skHgT1EQ3LDjrCChreUo7phk4Wc5yLwLM2/RAk8XyIZQDtkQrFXktQ5hf5hgnNfI+sr6qkp0LkUbqt7sMaEMybuUaz3Z0iNbEmhRRqKhjLO3X9+i3Q/yATrPyBPaN12pxkfpi0hpD3pYcLa+wjKRDgH98T9UVc25R9VNZib+jAJ07IRjubY8XAwn+71hDWErK6BoXkQ6RuydxruzMaSNCqEeButNofPN8CPERNFHNFzh4vWttCAP82fLJXMMFUDtvUdbwZaPcY+xGpYiMtDkKDH7dMvRK3FW390NQmGyAZdA66ikJByhqMevGZ8vHaEMKNcz9vDQJQRV4cUxRurEj2ySxv1yVgk4ep+W+huc+R2h2QeETMdDk5WWITDEleaS4jpfe+xehOWkRRkF/63WT//v8f9lIxLLIELgi0mmz7tq2tKFz7fpyeUc8XBlsCoJJKLz8Y6y6C8xunashIxI1DrI5WEIJA2/0Iw65TIX8y51iMpwDHnSJrHtP/bklii8lQmVx1xatNj9CZIIyUjFzmBUD4hKHgqVYnjFTD9D3T7FK/iThrg+RJFcmMBEG2yns/zdTm8TIrhb3vsz6bHZ8s=" #DOCKER_EMAIL
@@ -30,33 +28,33 @@ after_success:
 
 # REGISTRY SERVICE
   - export REGISTRY=proshik/spring-cloud-demo-registry
-  - docker build -t REGISTRY:$COMMIT ./registry
-  - docker tag REGISTRY:$COMMIT REGISTRY:$TAG
-  - docker push REGISTRY
+  - docker build -t $REGISTRY:$COMMIT ./registry
+  - docker tag $REGISTRY:$COMMIT $REGISTRY:$TAG
+  - docker push $REGISTRY
 
 # GATEWAY SERVICE
   - export GATEWAY=proshik/spring-cloud-demo-gateway
-  - docker build -t GATEWAY:$COMMIT ./gateway
-  - docker tag GATEWAY:$COMMIT GATEWAY:$TAG
-  - docker push GATEWAY
+  - docker build -t $GATEWAY:$COMMIT ./gateway
+  - docker tag $GATEWAY:$COMMIT $GATEWAY:$TAG
+  - docker push $GATEWAY
 
 # MONITORING SERVICE
   - export MONITORING=proshik/spring-cloud-demo-monitoring
-  - docker build -t MONITORING:$COMMIT ./monitoring
-  - docker tag MONITORING:$COMMIT MONITORING:$TAG
-  - docker push MONITORING
+  - docker build -t $MONITORING:$COMMIT ./monitoring
+  - docker tag $MONITORING:$COMMIT $MONITORING:$TAG
+  - docker push $MONITORING
 
 # ACCOUNT_SERVICE SERVICE
   - export ACCOUNT_SERVICE=proshik/spring-cloud-demo-account-service
-  - docker build -t ACCOUNT_SERVICE:$COMMIT ./account-service
-  - docker tag ACCOUNT_SERVICE:$COMMIT ACCOUNT_SERVICE:$TAG
-  - docker push ACCOUNT_SERVICE
+  - docker build -t $ACCOUNT_SERVICE:$COMMIT ./account-service
+  - docker tag $ACCOUNT_SERVICE:$COMMIT $ACCOUNT_SERVICE:$TAG
+  - docker push $ACCOUNT_SERVICE
 
 # API_SERVICE SERVICE
-  - export API_SERVICE=proshik/spring-cloud-demo-api-service
-  - docker build -t API_SERVICE:$COMMIT ./api-service
-  - docker tag API_SERVICE:$COMMIT API_SERVICE:$TAG
-  - docker push API_SERVICE
+  - export $API_SERVICE=proshik/spring-cloud-demo-api-service
+  - docker build -t $API_SERVICE:$COMMIT ./api-service
+  - docker tag $API_SERVICE:$COMMIT $API_SERVICE:$TAG
+  - docker push $API_SERVICE
 
 notifications:
   email:
