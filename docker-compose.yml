@@ -52,7 +52,7 @@ services:
     image: proshik/spring-cloud-demo-monitoring
     restart: always
     ports:
-      - 8786:8787
+      - 8787:8787
       - 8989:8989
     logging:
       options:

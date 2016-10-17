@@ -4,7 +4,7 @@ spring:
   cloud:
     config:
       uri: http://config:8888
-      password: {CONFIG_SERVICE_PASSWORD}
+      password: ${CONFIG_SERVICE_PASSWORD}
       username: user
       fail-fast: true
       retry:

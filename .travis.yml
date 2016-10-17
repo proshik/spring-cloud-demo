@@ -23,6 +23,36 @@ after_success:
   - docker tag $CONFIG:$COMMIT $CONFIG:$TAG
   - docker push $CONFIG
 
+# REGISTRY SERVICE
+  - export REGISTRY=proshik/spring-cloud-demo-registry
+  - docker build -t REGISTRY:$COMMIT ./registry
+  - docker tag REGISTRY:$COMMIT REGISTRY:$TAG
+  - docker push REGISTRY
+
+# GATEWAY SERVICE
+  - export GATEWAY=proshik/spring-cloud-demo-gateway
+  - docker build -t GATEWAY:$COMMIT ./gateway
+  - docker tag GATEWAY:$COMMIT GATEWAY:$TAG
+  - docker push GATEWAY
+
+# MONITORING SERVICE
+  - export MONITORING=proshik/spring-cloud-demo-monitoring
+  - docker build -t MONITORING:$COMMIT ./monitoring
+  - docker tag MONITORING:$COMMIT MONITORING:$TAG
+  - docker push MONITORING
+
+# ACCOUNT_SERVICE SERVICE
+  - export ACCOUNT_SERVICE=proshik/spring-cloud-demo-account-service
+  - docker build -t ACCOUNT_SERVICE:$COMMIT ./account-service
+  - docker tag ACCOUNT_SERVICE:$COMMIT ACCOUNT_SERVICE:$TAG
+  - docker push ACCOUNT_SERVICE
+
+# API_SERVICE SERVICE
+  - export API_SERVICE=proshik/spring-cloud-demo-api-service
+  - docker build -t API_SERVICE:$COMMIT ./api-service
+  - docker tag API_SERVICE:$COMMIT API_SERVICE:$TAG
+  - docker push API_SERVICE
+
 notifications:
   email:
     - proxoraleksandrovich@gmail.com
