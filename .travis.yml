@@ -53,7 +53,7 @@ after_success:
   - docker push $ACCOUNT_SERVICE
 
 # API_SERVICE SERVICE
-  - export $API_SERVICE=proshik/spring-cloud-demo-api-service
+  - export API_SERVICE=proshik/spring-cloud-demo-api-service
   - docker build -t $API_SERVICE:$COMMIT ./api-service
   - docker tag $API_SERVICE:$COMMIT $API_SERVICE:$TAG
   - docker push $API_SERVICE
