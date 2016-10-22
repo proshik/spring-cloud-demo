@@ -5,6 +5,8 @@ services:
     restart: always
     ports:
       - 15672:15672
+    expose:
+      - 5672
     logging:
       options:
         max-size: "10m"
@@ -27,6 +29,8 @@ services:
       CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
     image: proshik/spring-cloud-demo-registry
     restart: always
+    expose:
+      - 8761
     ports:
       - 8761:8761
     logging:

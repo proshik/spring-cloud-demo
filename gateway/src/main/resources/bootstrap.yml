@@ -1,6 +1,7 @@
 spring:
   application:
     name: gateway
+    index: ${vcap.application.instance_id:${spring.application.instance_id:${random.value}}}
   cloud:
     config:
       uri: http://config:8888
