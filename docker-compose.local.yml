@@ -22,6 +22,9 @@ services:
   monitoring:
     build: monitoring
 
+  sleuth:
+    build: sleuth
+
   account-service:
     build: account-service
     ports:

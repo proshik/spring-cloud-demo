@@ -1,4 +1,5 @@
 spring:
+  profiles: default
   application:
     name: api-service
     index: ${vcap.application.instance_id:${spring.application.instance_id:${random.value}}}
@@ -16,16 +17,18 @@ spring:
 ---
 spring:
   profiles: dev
+  application:
+    name: api-service
+    index: ${vcap.application.instance_id:${spring.application.instance_id:${random.value}}}
   cloud:
     config:
       enabled: false
       discovery:
         enabled: false
+
 server:
     port: 9010
-account-service:
-  ribbon:
-    listOfServers: localhost:9020
+
 logging:
   level:
     org.springframework: DEBUG
@@ -38,3 +41,6 @@ ribbon:
 feign:
   hystrix:
     enabled: false
+account-service:
+  ribbon:
+    listOfServers: localhost:9020

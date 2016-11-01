@@ -1,4 +1,5 @@
 spring:
+  profiles: default
   application:
     name: monitoring
     index: ${vcap.application.instance_id:${spring.application.instance_id:${random.value}}}
@@ -12,3 +13,20 @@ spring:
         multiplier: 1.5
         initial-interval: 2000
         max-interval: 10000
+
+---
+spring:
+  profiles: dev
+  application:
+    name: monitoring
+    index: ${vcap.application.instance_id:${spring.application.instance_id:${random.value}}}
+server:
+  port: 8787
+
+turbine:
+  stream:
+    port: 8989
+
+logging:
+  level:
+    org.springframework: DEBUG

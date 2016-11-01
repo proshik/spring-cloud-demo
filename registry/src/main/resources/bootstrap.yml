@@ -12,3 +12,24 @@ spring:
         multiplier: 1.5
         initial-interval: 2000
         max-interval: 10000
+
+---
+spring:
+  profiles: default
+  application:
+    name: registry
+    index: ${vcap.application.instance_id:${spring.application.instance_id:${random.value}}}
+
+server:
+  port: 8761
+
+eureka:
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+  server:
+      waitTimeInMsWhenSyncEmpty: 0
+
+logging:
+  level:
+    org.springframework: DEBUG

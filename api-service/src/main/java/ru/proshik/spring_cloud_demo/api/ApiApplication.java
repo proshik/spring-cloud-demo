@@ -9,6 +9,8 @@ import org.springframework.cloud.netflix.feign.EnableFeignClients;
 
 /**
  * Created by proshik on 04.10.2016.
+ * <p>
+ * -Dspring.profiles.active=dev
  */
 @EnableFeignClients
 @EnableEurekaClient

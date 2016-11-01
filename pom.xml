@@ -15,6 +15,7 @@
         <module>registry</module>
         <module>monitoring</module>
         <module>gateway</module>
+        <module>sleuth</module>
     </modules>
 
 </project>
