@@ -5,3 +5,6 @@ eureka:
 logging:
   level:
     org.springframework: WARN
+
+liquibase:
+  enabled: false
