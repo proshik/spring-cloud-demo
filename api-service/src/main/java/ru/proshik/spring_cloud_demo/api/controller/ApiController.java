@@ -10,6 +10,7 @@ import ru.proshik.spring_cloud_demo.api.client.AccountClient;
 /**
  * Created by proshik on 04.10.16.
  */
+@Deprecated
 @RestController
 @RequestMapping("/v1/api")
 public class ApiController {
