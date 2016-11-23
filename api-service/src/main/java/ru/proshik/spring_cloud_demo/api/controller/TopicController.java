@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.proshik.spring_cloud_demo.api.dto.TagOut;
 import ru.proshik.spring_cloud_demo.api.dto.TopicIn;
@@ -31,7 +32,7 @@ public class TopicController {
     @Autowired
     private TopicRepository topicRepository;
 
-    @PostMapping
+    @RequestMapping(method = RequestMethod.POST)
     public TopicOut add(@RequestBody @Valid TopicIn in) {
 
         return toRestOut(topicRepository.save(new Topic(
@@ -42,28 +43,40 @@ public class TopicController {
                 in.getTagIds().isEmpty()
                         ? Collections.emptySet()
                         : tagRepository.findByIdIn(in.getTagIds()))));
-
     }
 
-    @GetMapping(value = "{topicId}")
-    public TopicOut get(@PathVariable("topicId") Long topicId) {
+    @RequestMapping(method = RequestMethod.GET, value = "{topicId}")
+    public ResponseEntity get(@PathVariable("topicId") Long topicId) {
 
-        return toRestOut(topicRepository.findOne(topicId));
+        Topic topic = topicRepository.findOne(topicId);
+
+        if (topic != null) {
+            return ResponseEntity.ok(toRestOut(topicRepository.findOne(topicId)));
+        }
+
+        return ResponseEntity.badRequest().build();
     }
 
-    @GetMapping
+    @RequestMapping(method = RequestMethod.GET)
     public List<TopicOut> get(@PageableDefault Pageable pageable) {
 
         return toRestOut(topicRepository.findAll(pageable));
     }
 
-    @RequestMapping(value = "{topicId}/rating", method = RequestMethod.PATCH)
-    public TopicOut changeRating(@PathVariable("topicId") Long topicId) {
+    @RequestMapping(value = "/{topicId}/rating", method = RequestMethod.PATCH)
+    public ResponseEntity changeRating(@PathVariable("topicId") Long topicId) {
 
-        return toRestOut(topicRepository.incrementRating(topicId));
+        Topic topic = topicRepository.findOne(topicId);
+
+        if (topic != null) {
+            return ResponseEntity.ok(toRestOut(topicRepository.incrementRating(topicId)));
+        }
+
+        return ResponseEntity.badRequest().build();
     }
 
     private TopicOut toRestOut(Topic topic) {
+
         return new TopicOut(
                 topic.getTitle(),
                 topic.getContent(),
