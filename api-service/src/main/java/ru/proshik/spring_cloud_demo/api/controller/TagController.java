@@ -35,8 +35,8 @@ public class TagController {
         return ResponseEntity.ok(toRestOut(tag));
     }
 
-    @GetMapping(value = "{tagId}")
-    public ResponseEntity get(@PathVariable("tagId") Long tagId) {
+    @RequestMapping(method = RequestMethod.GET, value = "{tagId}")
+    public ResponseEntity get(@PathVariable(value = "tagId") Long tagId) {
 
         Tag tag = tagRepository.findById(tagId);
 

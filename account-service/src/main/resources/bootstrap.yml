@@ -63,3 +63,7 @@ ribbon:
 feign:
   hystrix:
     enabled: false
+
+security:
+  basic:
+    enabled: false

@@ -5,6 +5,7 @@ import java.util.Objects;
 /**
  * Created by proshik on 04.10.16.
  */
+@Deprecated
 public class ResourceOut {
 
     private String key;
