@@ -1,14 +1,14 @@
 package ru.proshik.spring_cloud_demo.account.service;
 
 
-import java.security.Principal;
+import ru.proshik.spring_cloud_demo.account.dto.AccountOut;
 
 /**
  * Created by proshik on 23.11.16.
  */
 public interface AccountService {
 
-    void create(String username, String password);
+    void create(String username, String email, String password, String confirmPassword);
 
-    Principal getAccount(String username);
+    AccountOut getAccount(String username);
 }

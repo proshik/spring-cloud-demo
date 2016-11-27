@@ -1,6 +1,7 @@
 package ru.proshik.spring_cloud_demo.auth_service.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -10,8 +11,9 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
-import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
-import ru.proshik.spring_cloud_demo.auth_service.service.security.PersistenceUserDetailsService;
+import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
+import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
+import ru.proshik.spring_cloud_demo.auth_service.service.UserServiceImpl;
 
 /**
  * Created by proshik on 26.11.16.
@@ -20,16 +22,26 @@ import ru.proshik.spring_cloud_demo.auth_service.service.security.PersistenceUse
 @EnableAuthorizationServer
 public class OAuth2AuthorizationConfig extends AuthorizationServerConfigurerAdapter {
 
-    private TokenStore tokenStore = new InMemoryTokenStore();
-
     @Autowired
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    private PersistenceUserDetailsService userDetailsService;
+    private UserServiceImpl userService;
 
     @Autowired
     private Environment env;
+
+    @Bean
+    public JwtAccessTokenConverter accessTokenConverter() {
+        JwtAccessTokenConverter jwtAccessTokenConverter = new JwtAccessTokenConverter();
+        jwtAccessTokenConverter.setSigningKey("signKeyFromProperties");
+        return jwtAccessTokenConverter;
+    }
+
+    @Bean
+    public TokenStore jwtTokenStore(){
+        return new JwtTokenStore(accessTokenConverter());
+    }
 
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
@@ -47,24 +59,15 @@ public class OAuth2AuthorizationConfig extends AuthorizationServerConfigurerAdap
                 .secret("password")
                 .authorizedGrantTypes("client_credentials", "refresh_token")
                 .scopes("server");
-//                .and()
-//                .withClient("learn-service")
-//                .secret("password")
-//                .authorizedGrantTypes("client_credentials", "refresh_token")
-//                .scopes("server")
-//                .and()
-//                .withClient("ytranslate-service")
-//                .secret("password")
-//                .authorizedGrantTypes("client_credentials", "refresh_token")
-//                .scopes("server");
     }
 
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         endpoints
-                .tokenStore(tokenStore)
+                .tokenStore(jwtTokenStore())
                 .authenticationManager(authenticationManager)
-                .userDetailsService(userDetailsService);
+                .accessTokenConverter(accessTokenConverter())
+                .userDetailsService(userService);
     }
 
     @Override
@@ -73,4 +76,5 @@ public class OAuth2AuthorizationConfig extends AuthorizationServerConfigurerAdap
                 .tokenKeyAccess("permitAll()")
                 .checkTokenAccess("isAuthenticated()");
     }
+
 }

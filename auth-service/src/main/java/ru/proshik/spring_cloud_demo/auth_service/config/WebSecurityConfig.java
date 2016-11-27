@@ -9,7 +9,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import ru.proshik.spring_cloud_demo.auth_service.service.security.PersistenceUserDetailsService;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import ru.proshik.spring_cloud_demo.auth_service.service.UserServiceImpl;
 
 /**
  * Created by proshik on 24.07.16.
@@ -19,18 +20,19 @@ import ru.proshik.spring_cloud_demo.auth_service.service.security.PersistenceUse
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private PersistenceUserDetailsService userDetailsService;
+    private UserServiceImpl userService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().anyRequest().authenticated()
+        http.authorizeRequests()
+                .anyRequest().authenticated()
                 .and()
-                .csrf().disable();
+                .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService)
+        auth.userDetailsService(userService)
                 .passwordEncoder(new BCryptPasswordEncoder());
     }
 

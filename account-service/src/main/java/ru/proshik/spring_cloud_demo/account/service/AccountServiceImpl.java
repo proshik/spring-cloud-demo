@@ -1,18 +1,16 @@
 package ru.proshik.spring_cloud_demo.account.service;
 
-import com.sun.security.auth.UserPrincipal;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
+import org.springframework.transaction.annotation.Transactional;
+import ru.proshik.spring_cloud_demo.account.client.AuthClient;
+import ru.proshik.spring_cloud_demo.account.dto.AccountOut;
+import ru.proshik.spring_cloud_demo.account.client.dto.UserCreateRequest;
 import ru.proshik.spring_cloud_demo.account.model.Account;
 import ru.proshik.spring_cloud_demo.account.repository.AccountRepository;
 
-import java.security.Principal;
 import java.time.LocalDateTime;
 
 /**
@@ -23,29 +21,42 @@ public class AccountServiceImpl implements AccountService {
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 
-    private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+    @Autowired
+    private AuthClient authClient;
 
     @Autowired
     private AccountRepository repository;
 
     @Override
-    public void create(String username, String password) {
+    @Transactional
+    public void create(String username, String email, String password, String configPassword) {
 
-        Account findUser = repository.findByUsername(username);
+        Account account = repository.findByUsername(username);
 
-        Assert.isNull(findUser, "user already exists: " + username);
+        if (account != null) {
+            throw new IllegalArgumentException("Account with username=" + username + " already exists");
+        }
 
-        repository.save(new Account(LocalDateTime.now(), username, encoder.encode(password)));
+        if (!password.equals(configPassword)) {
+            throw new IllegalArgumentException("Password not equals confirm password value");
+        }
+
+        // TODO: 27.11.16 need handle answer
+        authClient.createUser(new UserCreateRequest(username, password));
+
+        repository.save(new Account(LocalDateTime.now(), username, email));
 
         log.info("new user has been created: {}", username);
     }
 
     @Override
-    public Principal getAccount(String username) {
+    public AccountOut getAccount(String username) {
         Account account = repository.findByUsername(username);
 
-        Assert.notNull(account, "account not found: " + username);
+        if (account == null) {
+            throw new IllegalArgumentException("Account with username=" + username + " not found");
+        }
 
-        return new UsernamePasswordAuthenticationToken(account, null);
+        return new AccountOut(account.getUsername(), account.getEmail());
     }
 }

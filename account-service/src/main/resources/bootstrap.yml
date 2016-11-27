@@ -25,6 +25,8 @@ spring:
       enabled: false
       discovery:
         enabled: false
+  jackson:
+    date-format: com.fasterxml.jackson.databind.util.ISO8601DateFormat
   jpa:
     database: POSTGRESQL
     database-platform: org.hibernate.dialect.PostgreSQLDialect
@@ -52,8 +54,8 @@ server:
 
 logging:
   level:
-    org.hibernate.sql: DEBUG
-    org.springframework: DEBUG
+#    org.hibernate.sql: DEBUG
+    org.springframework: INFO
 eureka:
   client:
     enabled: false
@@ -64,6 +66,22 @@ feign:
   hystrix:
     enabled: false
 
+#security:
+#  basic:
+#    enabled: false
+
+
+auth-service:
+  ribbon:
+    listOfServers: localhost:5000
+
 security:
-  basic:
-    enabled: false
+  oauth2:
+    resource:
+      user-info-uri: http://localhost:5000/uaa/users/current
+    client:
+      clientId: account-service
+      clientSecret: password
+      accessTokenUri: http://localhost:5000/uaa/oauth/token
+      grant-type: client_credentials
+      scope: server

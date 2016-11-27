@@ -1,7 +1,7 @@
 spring:
   profiles: default
   application:
-    name: api-service
+    name: auth-service
     index: ${vcap.application.instance_id:${spring.application.instance_id:${random.value}}}
   cloud:
     config:
@@ -32,7 +32,7 @@ spring:
   database:
     driverClassName: org.postgresql.Driver
   datasource:
-    url: jdbc:postgresql://localhost:5432/think_clearly_topic
+    url: jdbc:postgresql://localhost:5432/think_clearly_auth
     username: postgres
     password: password
     initial-size: 5
@@ -44,17 +44,13 @@ spring:
     min-idle: 2
     validation-query: select 1
 
-server:
-    port: 9010
-
 liquibase:
   change-log: classpath:db-changelog.xml
 
-logging:
-  level:
-    org.springframework: INFO
-#    org.hibernate.sql: DEBUG
-#    org.hibernate.type: TRACE
+server:
+  port: 5000
+  context-path: /uaa
+
 eureka:
   client:
     enabled: false
@@ -64,6 +60,3 @@ ribbon:
 feign:
   hystrix:
     enabled: false
-account-service:
-  ribbon:
-    listOfServers: localhost:9020

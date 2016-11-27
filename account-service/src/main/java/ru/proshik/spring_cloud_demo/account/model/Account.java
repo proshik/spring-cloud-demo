@@ -1,11 +1,12 @@
 package ru.proshik.spring_cloud_demo.account.model;
 
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.id.enhanced.SequenceStyleGenerator;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.time.LocalDateTime;
 import java.util.Collection;
 
@@ -14,17 +15,7 @@ import java.util.Collection;
  */
 @Entity
 @Table(name = "account")
-public class Account implements UserDetails {
-
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "account_seq")
-//    @GenericGenerator(
-//            name = "account_seq",
-//            strategy = "enhanced-sequence",
-//            parameters = @org.hibernate.annotations.Parameter(
-//                    name = SequenceStyleGenerator.SEQUENCE_PARAM,
-//                    value = "account_seq"))
-//    private Long id;
+public class Account {
 
     @Id
     @Column(name = "username", updatable = false, nullable = false, unique = true)
@@ -33,21 +24,20 @@ public class Account implements UserDetails {
     @Column(name = "created_date", updatable = false, nullable = false)
     private LocalDateTime createdDate;
 
-    @Column(name = "password", nullable = false)
-    private String password;
+    @Column(name = "email", nullable = false)
+    private String email;
+
+    @Column(name = "confirm_email")
+    private Boolean confirmEmail = Boolean.TRUE;
 
     public Account() {
     }
 
-    public Account(LocalDateTime createdDate, String username, String password) {
+    public Account(LocalDateTime createdDate, String username, String email) {
         this.createdDate = createdDate;
         this.username = username;
-        this.password = password;
+        this.email = email;
     }
-
-//    public Long getId() {
-//        return id;
-//    }
 
     public LocalDateTime getCreatedDate() {
         return createdDate;
@@ -57,32 +47,11 @@ public class Account implements UserDetails {
         return username;
     }
 
-    @Override
-    public boolean isAccountNonExpired() {
-        return false;
+    public String getEmail() {
+        return email;
     }
 
-    @Override
-    public boolean isAccountNonLocked() {
-        return false;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return false;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
-    }
-
-    public String getPassword() {
-        return password;
+    public Boolean getConfirmEmail() {
+        return confirmEmail;
     }
 }
