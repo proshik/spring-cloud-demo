@@ -53,6 +53,10 @@ feign:
   hystrix:
     enabled: false
 
+logging:
+  level:
+    org.springframework: DEBUG
+
 auth:
   service:
     sign:

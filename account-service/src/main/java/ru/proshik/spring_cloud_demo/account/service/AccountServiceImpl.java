@@ -14,6 +14,7 @@ import ru.proshik.spring_cloud_demo.account.model.Account;
 import ru.proshik.spring_cloud_demo.account.repository.AccountRepository;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 /**
  * Created by proshik on 23.11.16.
@@ -40,7 +41,6 @@ public class AccountServiceImpl implements AccountService {
                     + " already exists");
         }
 
-        // TODO: 27.11.16 need handle answer
         authClient.createUser(new UserCreateRequest(in.getUsername(),
                 in.getPassword()));
         repository.save(new Account(LocalDateTime.now(), in.getUsername(), in.getFirstName(), in.getLastName(),

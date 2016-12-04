@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
  * Created by proshik on 21.11.16.
  */
 @RestController
-@RequestMapping(value = "/v1/tag")
+@RequestMapping(value = "/v1/topic/tag")
 public class TagController {
 
     @Autowired

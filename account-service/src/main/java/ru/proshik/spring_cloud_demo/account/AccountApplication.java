@@ -18,12 +18,12 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
  * -Dspring.profiles.active=dev
  */
 @EnableFeignClients
-@EnableCircuitBreaker
 @EnableEurekaClient
-@SpringBootApplication
-@EnableConfigurationProperties
 @EnableOAuth2Client
 @EnableResourceServer
+@EnableCircuitBreaker
+@SpringBootApplication
+@EnableConfigurationProperties
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class AccountApplication {
 

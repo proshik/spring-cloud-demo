@@ -5,6 +5,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import ru.proshik.spring_cloud_demo.api.dto.TagOut;
 import ru.proshik.spring_cloud_demo.api.dto.TopicIn;
@@ -57,8 +59,10 @@ public class TopicController {
         return ResponseEntity.badRequest().build();
     }
 
+
     @RequestMapping(method = RequestMethod.GET)
-    public List<TopicOut> get(@PageableDefault Pageable pageable) {
+    public List<TopicOut> get(@AuthenticationPrincipal Authentication authentication,
+                              @PageableDefault Pageable pageable) {
 
         return toRestOut(topicRepository.findAll(pageable));
     }
