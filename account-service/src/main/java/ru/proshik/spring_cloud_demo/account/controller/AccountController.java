@@ -41,13 +41,13 @@ public class AccountController {
 
     @ExceptionHandler(AccountAlreadyExistsException.class)
     @ResponseStatus(value = HttpStatus.CONFLICT, reason = "Account already exists")
-    public void accountAlreadyExistsExceptionHandler() {}
+    public void accountAlreadyExistsExceptionHandler() {
+    }
 
 
     @ExceptionHandler(RetryableException.class)
     @ResponseStatus(value = HttpStatus.GATEWAY_TIMEOUT, reason = "Password  validate error")
     public void passwordNotEqualsConfirmPasswordExceptionHandler() {
-        System.out.println("error");
     }
 
     private void validate(AccountRegistrationIn body) {
