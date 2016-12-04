@@ -6,8 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.proshik.spring_cloud_demo.account.client.AuthClient;
-import ru.proshik.spring_cloud_demo.account.dto.AccountOut;
 import ru.proshik.spring_cloud_demo.account.client.dto.UserCreateRequest;
+import ru.proshik.spring_cloud_demo.account.dto.AccountOut;
+import ru.proshik.spring_cloud_demo.account.dto.AccountRegistrationIn;
+import ru.proshik.spring_cloud_demo.account.exception.AccountAlreadyExistsException;
 import ru.proshik.spring_cloud_demo.account.model.Account;
 import ru.proshik.spring_cloud_demo.account.repository.AccountRepository;
 
@@ -29,24 +31,22 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     @Transactional
-    public void create(String username, String email, String password, String configPassword) {
+    public void create(AccountRegistrationIn in) {
 
-        Account account = repository.findByUsername(username);
+        Account account = repository.findByUsername(in.getUsername());
 
         if (account != null) {
-            throw new IllegalArgumentException("Account with username=" + username + " already exists");
-        }
-
-        if (!password.equals(configPassword)) {
-            throw new IllegalArgumentException("Password not equals confirm password value");
+            throw new AccountAlreadyExistsException("Account with username=" + in.getUsername()
+                    + " already exists");
         }
 
         // TODO: 27.11.16 need handle answer
-        authClient.createUser(new UserCreateRequest(username, password));
+        authClient.createUser(new UserCreateRequest(in.getUsername(),
+                in.getPassword()));
+        repository.save(new Account(LocalDateTime.now(), in.getUsername(), in.getFirstName(), in.getLastName(),
+                in.getEmail()));
 
-        repository.save(new Account(LocalDateTime.now(), username, email));
-
-        log.info("new user has been created: {}", username);
+        log.info("New user has been created: {}", in.getUsername());
     }
 
     @Override
@@ -57,6 +57,6 @@ public class AccountServiceImpl implements AccountService {
             throw new IllegalArgumentException("Account with username=" + username + " not found");
         }
 
-        return new AccountOut(account.getUsername(), account.getEmail());
+        return new AccountOut(account.getUsername(), account.getEmail(), account.getFirstName(), account.getLastName());
     }
 }

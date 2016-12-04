@@ -11,7 +11,6 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
  * Created by proshik on 26.11.16.
  */
 @EnableEurekaClient
-@EnableFeignClients
 @EnableResourceServer
 @SpringBootApplication
 @EnableGlobalMethodSecurity(prePostEnabled = true)

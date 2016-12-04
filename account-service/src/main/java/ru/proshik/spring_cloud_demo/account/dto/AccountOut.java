@@ -6,14 +6,17 @@ package ru.proshik.spring_cloud_demo.account.dto;
 public class AccountOut {
 
     private String username;
+    private String firstName;
+    private String lastName;
     private String email;
 
     public AccountOut() {
     }
 
-    public AccountOut(String username,
-                      String email) {
+    public AccountOut(String username, String firstName, String lastName, String email) {
         this.username = username;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.email = email;
     }
 
@@ -23,5 +26,13 @@ public class AccountOut {
 
     public String getEmail() {
         return email;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
     }
 }

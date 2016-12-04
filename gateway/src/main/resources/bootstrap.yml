@@ -36,6 +36,11 @@ zuul:
       clientId: account-service
       stripPrefix: false
 
+    auth-service:
+      path: /**/uaa/**
+      clientId: auth-service
+      stripPrefix: false
+
 hystrix:
   command:
     default:

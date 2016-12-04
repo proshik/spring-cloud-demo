@@ -13,6 +13,8 @@ CREATE TABLE "account" (
   "created_date"  TIMESTAMP WITH TIME ZONE,
   "email"         TEXT NOT NULL,
   "confirm_email" BOOLEAN,
+  "first_name"    TEXT,
+  "last_name"     TEXT,
   CONSTRAINT "username_unique" UNIQUE (username)
 );
 

@@ -8,21 +8,27 @@ import javax.validation.constraints.NotNull;
 /**
  * Created by proshik on 26.07.16.
  */
-public class RegistrationRequest {
+public class AccountRegistrationIn {
 
     @NotNull
     @Length(min = 3, max = 20)
     private String username;
 
-    @NotNull
+    @Length(max = 50)
+    private String firstName;
+
+    @Length(max = 50)
+    private String lastName;
+
     @Email
+    @NotNull
     private String email;
 
     @NotNull
     @Length(min = 6, max = 40)
     private String password;
 
-//    @NotNull
+    @NotNull
     @Length(min = 6, max = 40)
     private String confirmPassword;
 
@@ -56,5 +62,13 @@ public class RegistrationRequest {
 
     public void setConfirmPassword(String confirmPassword) {
         this.confirmPassword = confirmPassword;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
     }
 }

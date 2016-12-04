@@ -17,14 +17,6 @@ spring:
 ---
 spring:
   profiles: dev
-  application:
-    name: api-service
-    index: ${vcap.application.instance_id:${spring.application.instance_id:${random.value}}}
-  cloud:
-    config:
-      enabled: false
-      discovery:
-        enabled: false
   jpa:
     database: POSTGRESQL
     database-platform: org.hibernate.dialect.PostgreSQLDialect
@@ -60,3 +52,8 @@ ribbon:
 feign:
   hystrix:
     enabled: false
+
+auth:
+  service:
+    sign:
+      key: key

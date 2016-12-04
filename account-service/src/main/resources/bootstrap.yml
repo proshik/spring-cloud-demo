@@ -25,6 +25,9 @@ spring:
       enabled: false
       discovery:
         enabled: false
+    bus:
+      env:
+        enabled: false
   jackson:
     date-format: com.fasterxml.jackson.databind.util.ISO8601DateFormat
   jpa:
@@ -54,8 +57,9 @@ server:
 
 logging:
   level:
-#    org.hibernate.sql: DEBUG
+    org.hibernate.sql: INFO
     org.springframework: INFO
+
 eureka:
   client:
     enabled: false
@@ -65,11 +69,6 @@ ribbon:
 feign:
   hystrix:
     enabled: false
-
-#security:
-#  basic:
-#    enabled: false
-
 
 auth-service:
   ribbon:
@@ -81,7 +80,9 @@ security:
       user-info-uri: http://localhost:5000/uaa/users/current
     client:
       clientId: account-service
-      clientSecret: password
+      clientSecret: ${ACCOUNT_SERVICE_PASSWORD}
       accessTokenUri: http://localhost:5000/uaa/oauth/token
       grant-type: client_credentials
       scope: server
+  basic:
+    enabled: false

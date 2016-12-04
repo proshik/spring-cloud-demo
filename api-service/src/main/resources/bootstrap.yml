@@ -25,6 +25,9 @@ spring:
       enabled: false
       discovery:
         enabled: false
+    bus:
+      env:
+        enabled: false
   jpa:
     database: POSTGRESQL
     database-platform: org.hibernate.dialect.PostgreSQLDialect
@@ -53,8 +56,8 @@ liquibase:
 logging:
   level:
     org.springframework: INFO
-#    org.hibernate.sql: DEBUG
-#    org.hibernate.type: TRACE
+    org.hibernate.sql: INFO
+    org.hibernate.type: INFO
 eureka:
   client:
     enabled: false
@@ -64,6 +67,24 @@ ribbon:
 feign:
   hystrix:
     enabled: false
+
 account-service:
   ribbon:
     listOfServers: localhost:9020
+
+auth-service:
+  ribbon:
+    listOfServers: localhost:5000
+
+security:
+  oauth2:
+    resource:
+      user-info-uri: http://localhost:5000/uaa/users/current
+    client:
+      clientId: api-service
+      clientSecret: ${API_SERVICE_PASSWORD}
+      accessTokenUri: http://localhost:5000/uaa/oauth/token
+      grant-type: client_credentials
+      scope: server
+  basic:
+    enabled: false

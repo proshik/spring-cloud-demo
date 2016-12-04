@@ -34,12 +34,12 @@ public class OAuth2AuthorizationConfig extends AuthorizationServerConfigurerAdap
     @Bean
     public JwtAccessTokenConverter accessTokenConverter() {
         JwtAccessTokenConverter jwtAccessTokenConverter = new JwtAccessTokenConverter();
-        jwtAccessTokenConverter.setSigningKey("signKeyFromProperties");
+        jwtAccessTokenConverter.setSigningKey(env.getProperty("auth.service.sign.key"));
         return jwtAccessTokenConverter;
     }
 
     @Bean
-    public TokenStore jwtTokenStore(){
+    public TokenStore jwtTokenStore() {
         return new JwtTokenStore(accessTokenConverter());
     }
 
@@ -51,12 +51,12 @@ public class OAuth2AuthorizationConfig extends AuthorizationServerConfigurerAdap
                 .scopes("ui")
                 .and()
                 .withClient("api-service")
-                .secret("password")
+                .secret(env.getProperty("API_SERVICE_PASSWORD"))
                 .authorizedGrantTypes("client_credentials", "refresh_token")
                 .scopes("server")
                 .and()
                 .withClient("account-service")
-                .secret("password")
+                .secret(env.getProperty("ACCOUNT_SERVICE_PASSWORD"))
                 .authorizedGrantTypes("client_credentials", "refresh_token")
                 .scopes("server");
     }
