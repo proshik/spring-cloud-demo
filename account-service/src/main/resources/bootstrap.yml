@@ -28,6 +28,10 @@ spring:
     bus:
       env:
         enabled: false
+  sleuth:
+      enabled: false
+      integration:
+        enabled: false
   jpa:
     database: POSTGRESQL
     database-platform: org.hibernate.dialect.PostgreSQLDialect
