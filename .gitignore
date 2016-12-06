@@ -10,3 +10,4 @@ log/
 *.iws
 /out/
 */target/
+.DS_Store
