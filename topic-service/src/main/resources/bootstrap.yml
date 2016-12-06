@@ -1,0 +1,93 @@
+spring:
+  profiles: default
+  application:
+    name: topic-service
+    index: ${vcap.application.instance_id:${spring.application.instance_id:${random.value}}}
+  cloud:
+    config:
+      uri: http://config:8888
+      password: ${CONFIG_SERVICE_PASSWORD}
+      username: user
+      fail-fast: true
+      retry:
+        multiplier: 1.5
+        initial-interval: 2000
+        max-interval: 10000
+
+---
+spring:
+  profiles: dev
+  application:
+    name: topic-service
+    index: ${vcap.application.instance_id:${spring.application.instance_id:${random.value}}}
+  cloud:
+    config:
+      enabled: false
+      discovery:
+        enabled: false
+    bus:
+      enabled: false
+  sleuth:
+      enabled: false
+      integration:
+        enabled: false
+  jpa:
+    database: POSTGRESQL
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: false
+  database:
+    driverClassName: org.postgresql.Driver
+  datasource:
+    url: jdbc:postgresql://localhost:5432/think_clearly_topic
+    username: postgres
+    password: password
+    initial-size: 5
+    max-active: 100
+    max-idle: 5
+    test-on-borrow: true
+    test-while-idle: true
+    test-on-return: true
+    min-idle: 2
+    validation-query: select 1
+
+server:
+    port: 9010
+
+liquibase:
+  change-log: classpath:db-changelog.xml
+
+logging:
+  level:
+    org.springframework: INFO
+    org.hibernate.sql: INFO
+    org.hibernate.type: INFO
+eureka:
+  client:
+    enabled: false
+ribbon:
+  eureka:
+    enabled: false
+feign:
+  hystrix:
+    enabled: false
+
+account-service:
+  ribbon:
+    listOfServers: localhost:9020
+
+auth-service:
+  ribbon:
+    listOfServers: localhost:5000
+
+security:
+  oauth2:
+    resource:
+      user-info-uri: http://localhost:5000/uaa/users/current
+    client:
+      clientId: topic-service
+      clientSecret: ${TOPIC_SERVICE_PASSWORD}
+      accessTokenUri: http://localhost:5000/uaa/oauth/token
+      grant-type: client_credentials
+      scope: server
+  basic:
+    enabled: false

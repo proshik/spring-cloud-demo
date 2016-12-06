@@ -17,7 +17,7 @@ services:
       CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
       GITHUB_PASSWORD: $GITHUB_PASSWORD
       GITHUB_USERNAME: $GITHUB_USERNAME
-    image: proshik/spring-cloud-demo_config
+    image: proshik/thinkclearly-config
     restart: always
     logging:
       options:
@@ -27,7 +27,7 @@ services:
   registry:
     environment:
       CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
-    image: proshik/spring-cloud-demo-registry
+    image: proshik/thinkclearly-registry
     restart: always
     ports:
       - 8761:8761
@@ -41,7 +41,7 @@ services:
   gateway:
     environment:
       CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
-    image: proshik/spring-cloud-demo-gateway
+    image: proshik/thinkclearly-gateway
     restart: always
     ports:
       - 80:4000
@@ -53,7 +53,7 @@ services:
   monitoring:
     environment:
       CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
-    image: proshik/spring-cloud-demo-monitoring
+    image: proshik/thinkclearly-monitoring
     restart: always
     ports:
       - 8787:8787
@@ -66,7 +66,7 @@ services:
   sleuth:
     environment:
       CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
-    image: proshik/spring-cloud-demo-sleuth
+    image: proshik/thinkclearly-sleuth
     restart: always
     ports:
       - 9411:9411
@@ -78,17 +78,17 @@ services:
   account-service:
     environment:
       CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
-    image: proshik/spring-cloud-demo-account-service
+    image: proshik/thinkclearly-account-service
     restart: always
     logging:
           options:
             max-size: "10m"
             max-file: "10"
 
-  api-service:
+  topic-service:
     environment:
       CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
-    image: proshik/spring-cloud-demo-api-service
+    image: proshik/thinkclearly-topic-service
     restart: always
     logging:
           options:

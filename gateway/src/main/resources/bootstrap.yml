@@ -33,7 +33,7 @@ server:
 
 zuul:
   routes:
-    api-service:
+    topic-service:
       path: /**/topic/**
       url: http://localhost:9010
       stripPrefix: false

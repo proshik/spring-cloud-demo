@@ -23,46 +23,46 @@ after_success:
   - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
 
 # CONFIG SERVICE
-  - export CONFIG=proshik/spring-cloud-demo_config
+  - export CONFIG=proshik/thinkclearly-config
   - docker build -t $CONFIG:$COMMIT ./config
   - docker tag $CONFIG:$COMMIT $CONFIG:$TAG
   - docker push $CONFIG
 
 # REGISTRY SERVICE
-  - export REGISTRY=proshik/spring-cloud-demo-registry
+  - export REGISTRY=proshik/thinkclearly-registry
   - docker build -t $REGISTRY:$COMMIT ./registry
   - docker tag $REGISTRY:$COMMIT $REGISTRY:$TAG
   - docker push $REGISTRY
 
 # GATEWAY SERVICE
-  - export GATEWAY=proshik/spring-cloud-demo-gateway
+  - export GATEWAY=proshik/thinkclearly-gateway
   - docker build -t $GATEWAY:$COMMIT ./gateway
   - docker tag $GATEWAY:$COMMIT $GATEWAY:$TAG
   - docker push $GATEWAY
 
 # MONITORING SERVICE
-  - export MONITORING=proshik/spring-cloud-demo-monitoring
+  - export MONITORING=proshik/thinkclearly-monitoring
   - docker build -t $MONITORING:$COMMIT ./monitoring
   - docker tag $MONITORING:$COMMIT $MONITORING:$TAG
   - docker push $MONITORING
 
 # SLEUTH SERVICE
-  - export SLEUTH=proshik/spring-cloud-demo-sleuth
+  - export SLEUTH=proshik/thinkclearly-sleuth
   - docker build -t $SLEUTH:$COMMIT ./sleuth
   - docker tag $SLEUTH:$COMMIT $SLEUTH:$TAG
   - docker push $SLEUTH
 
 # ACCOUNT_SERVICE SERVICE
-  - export ACCOUNT_SERVICE=proshik/spring-cloud-demo-account-service
+  - export ACCOUNT_SERVICE=proshik/thinkclearly-account-service
   - docker build -t $ACCOUNT_SERVICE:$COMMIT ./account-service
   - docker tag $ACCOUNT_SERVICE:$COMMIT $ACCOUNT_SERVICE:$TAG
   - docker push $ACCOUNT_SERVICE
 
-# API_SERVICE SERVICE
-  - export API_SERVICE=proshik/spring-cloud-demo-api-service
-  - docker build -t $API_SERVICE:$COMMIT ./api-service
-  - docker tag $API_SERVICE:$COMMIT $API_SERVICE:$TAG
-  - docker push $API_SERVICE
+# TOPIC_SERVICE SERVICE
+  - export TOPIC_SERVICE=proshik/thinkclearly-service
+  - docker build -t $TOPIC_SERVICE:$COMMIT ./topic-service
+  - docker tag $TOPIC_SERVICE:$COMMIT $TOPIC_SERVICE:$TAG
+  - docker push $TOPIC_SERVICE
 
 notifications:
   email:
