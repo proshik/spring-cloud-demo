@@ -13,7 +13,7 @@ spring:
           uri: https://github.com/proshik/config-repo
           username: ${GITHUB_USERNAME}
           password: ${GITHUB_PASSWORD}
-          search-paths: spring-cloud-demo
+          search-paths: thinkclearly
 
 logging:
   level:
