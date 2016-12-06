@@ -34,3 +34,8 @@ services:
     build: topic-service
     ports:
       - 9010:9010
+
+  auth-service:
+    build: auth-service
+    ports:
+      - 5000:5000

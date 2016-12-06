@@ -22,47 +22,53 @@ after_success:
 # TAG
   - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
 
-# CONFIG SERVICE
+# CONFIG
   - export CONFIG=proshik/thinkclearly-config
   - docker build -t $CONFIG:$COMMIT ./config
   - docker tag $CONFIG:$COMMIT $CONFIG:$TAG
   - docker push $CONFIG
 
-# REGISTRY SERVICE
+# REGISTRY
   - export REGISTRY=proshik/thinkclearly-registry
   - docker build -t $REGISTRY:$COMMIT ./registry
   - docker tag $REGISTRY:$COMMIT $REGISTRY:$TAG
   - docker push $REGISTRY
 
-# GATEWAY SERVICE
+# GATEWAY
   - export GATEWAY=proshik/thinkclearly-gateway
   - docker build -t $GATEWAY:$COMMIT ./gateway
   - docker tag $GATEWAY:$COMMIT $GATEWAY:$TAG
   - docker push $GATEWAY
 
-# MONITORING SERVICE
+# MONITORING
   - export MONITORING=proshik/thinkclearly-monitoring
   - docker build -t $MONITORING:$COMMIT ./monitoring
   - docker tag $MONITORING:$COMMIT $MONITORING:$TAG
   - docker push $MONITORING
 
-# SLEUTH SERVICE
+# SLEUTH
   - export SLEUTH=proshik/thinkclearly-sleuth
   - docker build -t $SLEUTH:$COMMIT ./sleuth
   - docker tag $SLEUTH:$COMMIT $SLEUTH:$TAG
   - docker push $SLEUTH
 
-# ACCOUNT_SERVICE SERVICE
+# ACCOUNT_SERVICE
   - export ACCOUNT_SERVICE=proshik/thinkclearly-account-service
   - docker build -t $ACCOUNT_SERVICE:$COMMIT ./account-service
   - docker tag $ACCOUNT_SERVICE:$COMMIT $ACCOUNT_SERVICE:$TAG
   - docker push $ACCOUNT_SERVICE
 
-# TOPIC_SERVICE SERVICE
-  - export TOPIC_SERVICE=proshik/thinkclearly-service
+# TOPIC_SERVICE
+  - export TOPIC_SERVICE=proshik/thinkclearly-topic-service
   - docker build -t $TOPIC_SERVICE:$COMMIT ./topic-service
   - docker tag $TOPIC_SERVICE:$COMMIT $TOPIC_SERVICE:$TAG
   - docker push $TOPIC_SERVICE
+
+# AUTH_SERVICE
+  - export AUTH_SERVICE=proshik/thinkclearly-auth-service
+  - docker build -t $AUTH_SERVICE:$COMMIT ./auth-service
+  - docker tag $AUTH_SERVICE:$COMMIT $AUTH_SERVICE:$TAG
+  - docker push $AUTH_SERVICE
 
 notifications:
   email:
