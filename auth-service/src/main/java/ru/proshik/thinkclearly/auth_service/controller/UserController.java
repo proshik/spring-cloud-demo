@@ -19,7 +19,6 @@ public class UserController {
     @Autowired
     private UserServiceImpl userService;
 
-    @PreAuthorize("#oauth2.hasScope('server')")
     @RequestMapping(value = "/current", method = RequestMethod.GET)
     public Principal getUser(Principal principal) {
         return principal;

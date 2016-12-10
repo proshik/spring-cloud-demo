@@ -1,5 +1,6 @@
 package ru.proshik.thinkclearly.topic.controller;
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +24,7 @@ public class TagController {
     private TagRepository tagRepository;
 
     @Transactional
+    @HystrixCommand
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<TagOut> add(@RequestBody @Valid TagIn in) {
 

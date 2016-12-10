@@ -1,5 +1,6 @@
 package ru.proshik.thinkclearly.topic.controller;
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -7,6 +8,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import ru.proshik.thinkclearly.topic.dto.TagOut;
 import ru.proshik.thinkclearly.topic.dto.TopicIn;
@@ -34,6 +36,7 @@ public class TopicController {
     @Autowired
     private TopicRepository topicRepository;
 
+    @HystrixCommand
     @RequestMapping(method = RequestMethod.POST)
     public TopicOut add(@RequestBody @Valid TopicIn in) {
 
@@ -47,6 +50,7 @@ public class TopicController {
                         : tagRepository.findByIdIn(in.getTagIds()))));
     }
 
+    @HystrixCommand
     @RequestMapping(method = RequestMethod.GET, value = "{topicId}")
     public ResponseEntity get(@PathVariable("topicId") Long topicId) {
 
@@ -59,7 +63,7 @@ public class TopicController {
         return ResponseEntity.badRequest().build();
     }
 
-
+    @HystrixCommand
     @RequestMapping(method = RequestMethod.GET)
     public List<TopicOut> get(@AuthenticationPrincipal Authentication authentication,
                               @PageableDefault Pageable pageable) {
@@ -67,6 +71,7 @@ public class TopicController {
         return toRestOut(topicRepository.findAll(pageable));
     }
 
+    @HystrixCommand
     @RequestMapping(value = "/{topicId}/rating", method = RequestMethod.PATCH)
     public ResponseEntity changeRating(@PathVariable("topicId") Long topicId) {
 
