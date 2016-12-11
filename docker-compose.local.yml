@@ -8,6 +8,15 @@ services:
     expose:
       - 5672
 
+  postgresql:
+    build: postgres-init
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=$POSTGRES_USERNAME
+      - POSTGRES_PASSWORD=$POSTGRES_PASSWORD
+
   config:
     build: config
     ports:

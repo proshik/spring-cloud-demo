@@ -38,7 +38,7 @@ spring:
   database:
     driverClassName: org.postgresql.Driver
   datasource:
-    url: jdbc:postgresql://localhost:5432/think_clearly_topic
+    url: jdbc:postgresql://localhost:5432/think_clearly_auth
     username: postgres
     password: password
     initial-size: 5
