@@ -38,7 +38,7 @@ spring:
   database:
     driverClassName: org.postgresql.Driver
   datasource:
-    url: jdbc:postgresql://localhost:5432/think_clearly_auth
+    url: jdbc:postgresql://localhost:5432/think_clearly_topic
     username: postgres
     password: password
     initial-size: 5
@@ -56,11 +56,6 @@ server:
 liquibase:
   change-log: classpath:db-changelog.xml
 
-logging:
-  level:
-    org.springframework: INFO
-    org.hibernate.sql: INFO
-    org.hibernate.type: INFO
 eureka:
   client:
     enabled: false
@@ -79,6 +74,13 @@ auth-service:
   ribbon:
     listOfServers: localhost:5000
 
+hystrix:
+  command:
+    default:
+      execution:
+        timeout:
+          enabled: false
+
 security:
   oauth2:
     resource:
@@ -91,3 +93,12 @@ security:
       scope: server
   basic:
     enabled: false
+#for disable oauth endpoints security
+  ignored: /**
+
+#log-config
+logging:
+  level:
+    org.springframework: INFO
+    org.hibernate.type: TRACE
+    org.hibernate: DEBUG

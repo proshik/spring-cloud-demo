@@ -9,6 +9,7 @@ import org.springframework.cloud.netflix.feign.EnableFeignClients;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
  * Created by proshik on 04.10.2016.
@@ -23,6 +24,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 @EnableResourceServer
 @EnableCircuitBreaker
 @SpringBootApplication
+@EnableTransactionManagement
 @EnableConfigurationProperties
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class TopicApplication {

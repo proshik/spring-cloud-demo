@@ -5,6 +5,7 @@ import org.hibernate.id.enhanced.SequenceStyleGenerator;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -42,7 +43,7 @@ public class Topic {
     @Column(name = "show_count")
     private Integer showCount = 0;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(
             name = "topic_tag",
             joinColumns = @JoinColumn(name = "topic_id"),

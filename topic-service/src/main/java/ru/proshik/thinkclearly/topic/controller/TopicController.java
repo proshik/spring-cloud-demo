@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -36,7 +37,9 @@ public class TopicController {
     @Autowired
     private TopicRepository topicRepository;
 
+    @Transactional
     @HystrixCommand
+    @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(method = RequestMethod.POST)
     public TopicOut add(@RequestBody @Valid TopicIn in) {
 
@@ -54,10 +57,10 @@ public class TopicController {
     @RequestMapping(method = RequestMethod.GET, value = "{topicId}")
     public ResponseEntity get(@PathVariable("topicId") Long topicId) {
 
-        Topic topic = topicRepository.findOne(topicId);
+        Topic topic = topicRepository.findTopicWithTags(topicId);
 
         if (topic != null) {
-            return ResponseEntity.ok(toRestOut(topicRepository.findOne(topicId)));
+            return ResponseEntity.ok(toRestOut(topic));
         }
 
         return ResponseEntity.badRequest().build();
@@ -68,20 +71,17 @@ public class TopicController {
     public List<TopicOut> get(@AuthenticationPrincipal Authentication authentication,
                               @PageableDefault Pageable pageable) {
 
-        return toRestOut(topicRepository.findAll(pageable));
+        List<Topic> all = topicRepository.findTopicsWithTags(pageable);
+
+        return toRestOut(all);
     }
 
     @HystrixCommand
+    @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/{topicId}/rating", method = RequestMethod.PATCH)
-    public ResponseEntity changeRating(@PathVariable("topicId") Long topicId) {
+    public void changeRating(@PathVariable("topicId") Long topicId) {
 
-        Topic topic = topicRepository.findOne(topicId);
-
-        if (topic != null) {
-            return ResponseEntity.ok(toRestOut(topicRepository.incrementRating(topicId)));
-        }
-
-        return ResponseEntity.badRequest().build();
+        topicRepository.incrementRating(topicId);
     }
 
     private TopicOut toRestOut(Topic topic) {
@@ -97,8 +97,8 @@ public class TopicController {
                         .collect(Collectors.toList()));
     }
 
-    private List<TopicOut> toRestOut(Page<Topic> topics) {
-        return topics.getContent().stream()
+    private List<TopicOut> toRestOut(List<Topic> topics) {
+        return topics.stream()
                 .map(this::toRestOut)
                 .collect(Collectors.toList());
     }
