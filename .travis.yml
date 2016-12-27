@@ -6,7 +6,7 @@ services:
 language: java
 jdk: oraclejdk8
 
-script: mvn clean package -DskipTests=true
+script: mvn clean install -B
 
 env:
   global:
