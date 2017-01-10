@@ -1,0 +1,152 @@
+version: '2'
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    restart: always
+    environment:
+      RABBITMQ_HOST: $RABBITMQ_HOST
+      RABBITMQ_PASSWORD: $RABBITMQ_PASSWORD
+      RABBITMQ_USERNAME: $RABBITMQ_USERNAME
+    ports:
+      - 15672:15672
+    expose:
+      - 5672
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+
+  postgresql:
+    image:  proshik/thinkclearly-postgres
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USERNAME: $POSTGRES_USERNAME
+      POSTGRES_PASSWORD: $POSTGRES_PASSWORD
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+
+  config:
+    environment:
+      CONFIG_SERVICE_PORT: $CONFIG_SERVICE_PORT
+      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
+      CONFIG_SERVICE_USERNAME: $CONFIG_SERVICE_USERNAME
+      CONFIG_SERVICE_CSV_CONFIG_REPO_URL: $CONFIG_SERVICE_CSV_CONFIG_REPO_URL
+      CONFIG_SERVICE_POSTFIX_APPLICATION: $CONFIG_SERVICE_POSTFIX_APPLICATION
+    image: proshik/thinkclearly-config
+    restart: always
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+
+  registry:
+    environment:
+      CONFIG_SERVICE_HOST: $CONFIG_SERVICE_HOST
+      CONFIG_SERVICE_PORT: $CONFIG_SERVICE_PORT
+      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
+      CONFIG_SERVICE_USERNAME: $CONFIG_SERVICE_USERNAME
+      CONFIGURATION_ENVIRONMENT: $CONFIGURATION_ENVIRONMENT
+    image: proshik/thinkclearly-registry
+    restart: always
+    ports:
+      - 8761:8761
+    expose:
+      - 8761
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+
+  gateway:
+    environment:
+      CONFIG_SERVICE_HOST: $CONFIG_SERVICE_HOST
+      CONFIG_SERVICE_PORT: $CONFIG_SERVICE_PORT
+      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
+      CONFIG_SERVICE_USERNAME: $CONFIG_SERVICE_USERNAME
+      CONFIGURATION_ENVIRONMENT: $CONFIGURATION_ENVIRONMENT
+    image: proshik/thinkclearly-gateway
+    restart: always
+    ports:
+      - 80:4000
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+
+  monitoring:
+    environment:
+      CONFIG_SERVICE_HOST: $CONFIG_SERVICE_HOST
+      CONFIG_SERVICE_PORT: $CONFIG_SERVICE_PORT
+      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
+      CONFIG_SERVICE_USERNAME: $CONFIG_SERVICE_USERNAME
+      CONFIGURATION_ENVIRONMENT: $CONFIGURATION_ENVIRONMENT
+    image: proshik/thinkclearly-monitoring
+    restart: always
+    ports:
+      - 8787:8787
+      - 8989:8989
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+
+  sleuth:
+    environment:
+      CONFIG_SERVICE_HOST: $CONFIG_SERVICE_HOST
+      CONFIG_SERVICE_PORT: $CONFIG_SERVICE_PORT
+      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
+      CONFIG_SERVICE_USERNAME: $CONFIG_SERVICE_USERNAME
+      CONFIGURATION_ENVIRONMENT: $CONFIGURATION_ENVIRONMENT
+    image: proshik/thinkclearly-sleuth
+    restart: always
+    ports:
+      - 9411:9411
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+
+  account-service:
+    environment:
+      CONFIG_SERVICE_HOST: $CONFIG_SERVICE_HOST
+      CONFIG_SERVICE_PORT: $CONFIG_SERVICE_PORT
+      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
+      CONFIG_SERVICE_USERNAME: $CONFIG_SERVICE_USERNAME
+      CONFIGURATION_ENVIRONMENT: $CONFIGURATION_ENVIRONMENT
+    image: proshik/thinkclearly-account-service
+    restart: always
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+
+  topic-service:
+    environment:
+      CONFIG_SERVICE_HOST: $CONFIG_SERVICE_HOST
+      CONFIG_SERVICE_PORT: $CONFIG_SERVICE_PORT
+      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
+      CONFIG_SERVICE_USERNAME: $CONFIG_SERVICE_USERNAME
+      CONFIGURATION_ENVIRONMENT: $CONFIGURATION_ENVIRONMENT
+    image: proshik/thinkclearly-topic-service
+    restart: always
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+
+  auth-service:
+    environment:
+      CONFIG_SERVICE_HOST: $CONFIG_SERVICE_HOST
+      CONFIG_SERVICE_PORT: $CONFIG_SERVICE_PORT
+      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
+      CONFIG_SERVICE_USERNAME: $CONFIG_SERVICE_USERNAME
+    image: proshik/thinkclearly-auth-service
+    restart: always
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"

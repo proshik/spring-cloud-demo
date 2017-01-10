@@ -1,23 +1,24 @@
 spring:
   application:
-    name: registry
+    name: registry-service
     index: ${vcap.application.instance_id:${spring.application.instance_id:${random.value}}}
   cloud:
     config:
-      uri: http://config:8888
+      uri: ${CONFIG_SERVICE_HOST}:${CONFIG_SERVICE_PORT}
+      username: ${CONFIG_SERVICE_USERNAME}
       password: ${CONFIG_SERVICE_PASSWORD}
-      username: user
       fail-fast: true
       retry:
         multiplier: 1.5
         initial-interval: 2000
         max-interval: 10000
+      label: ${CONFIGURATION_ENVIRONMENT}
 
 ---
 spring:
   profiles: dev
   application:
-    name: registry
+    name: registry-service
     index: ${vcap.application.instance_id:${spring.application.instance_id:${random.value}}}
 
 server:

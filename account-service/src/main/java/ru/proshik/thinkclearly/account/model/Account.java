@@ -30,7 +30,7 @@ public class Account {
     private String email;
 
     @Column(name = "confirm_email")
-    private Boolean confirmEmail = Boolean.TRUE;
+    private Boolean confirmEmail = Boolean.FALSE;
 
     public Account() {
     }

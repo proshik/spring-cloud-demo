@@ -68,8 +68,7 @@ public class TopicController {
 
     @HystrixCommand
     @RequestMapping(method = RequestMethod.GET)
-    public List<TopicOut> get(@AuthenticationPrincipal Authentication authentication,
-                              @PageableDefault Pageable pageable) {
+    public List<TopicOut> get(@PageableDefault Pageable pageable) {
 
         List<Topic> all = topicRepository.findTopicsWithTags(pageable);
 

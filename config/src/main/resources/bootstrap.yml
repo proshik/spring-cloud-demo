@@ -1,20 +1,19 @@
 server:
-  port: 8888
+  port: ${CONFIG_SERVICE_PORT}
 
 security:
   user:
     password: ${CONFIG_SERVICE_PASSWORD}
+    name: ${CONFIG_SERVICE_USERNAME}
 
 spring:
   cloud:
     config:
       server:
         git:
-          uri: https://github.com/proshik/config-repo
-          username: ${GITHUB_USERNAME}
-          password: ${GITHUB_PASSWORD}
-          search-paths: thinkclearly
+          uri: ${CONFIG_SERVICE_CSV_CONFIG_REPO_URL}
+          search-paths: ${CONFIG_SERVICE_POSTFIX_APPLICATION}
 
 logging:
   level:
-    org.springframework: INFO
+    org.springframework: DEBUG

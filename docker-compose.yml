@@ -1,130 +1,86 @@
 version: '2'
 services:
-  rabbitmq:
-    image: rabbitmq:3-management
-    restart: always
-    ports:
-      - 15672:15672
-    expose:
-      - 5672
-    logging:
-      options:
-        max-size: "10m"
-        max-file: "10"
-
-  postgresql:
-    image:  proshik/thinkclearly-postgres
-    restart: always
-    ports:
-      - 5432:5432
-    environment:
-      - POSTGRES_USER=$POSTGRES_USERNAME
-      - POSTGRES_PASSWORD=$POSTGRES_PASSWORD
-    logging:
-      options:
-        max-size: "10m"
-        max-file: "10"
-
-  config:
-    environment:
-      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
-      GITHUB_PASSWORD: $GITHUB_PASSWORD
-      GITHUB_USERNAME: $GITHUB_USERNAME
-    image: proshik/thinkclearly-config
-    restart: always
-    logging:
-      options:
-        max-size: "10m"
-        max-file: "10"
-
-  registry:
-    environment:
-      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
-    image: proshik/thinkclearly-registry
-    restart: always
-    ports:
-      - 8761:8761
-    expose:
-      - 8761
-    logging:
-      options:
-        max-size: "10m"
-        max-file: "10"
-
   gateway:
     environment:
+      CONFIG_SERVICE_HOST: $CONFIG_SERVICE_HOST
+      CONFIG_SERVICE_PORT: $CONFIG_SERVICE_PORT
       CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
+      CONFIG_SERVICE_USERNAME: $CONFIG_SERVICE_USERNAME
     image: proshik/thinkclearly-gateway
     restart: always
     ports:
       - 80:4000
     logging:
+      driver: gelf
       options:
-        max-size: "10m"
-        max-file: "10"
+        gelf-address: $LOG_GELF_ADDRESS
+
+  account-service:
+    environment:
+      CONFIG_SERVICE_HOST: $CONFIG_SERVICE_HOST
+      CONFIG_SERVICE_PORT: $CONFIG_SERVICE_PORT
+      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
+      CONFIG_SERVICE_USERNAME: $CONFIG_SERVICE_USERNAME
+    image: proshik/thinkclearly-account-service
+    restart: always
+    logging:
+      driver: gelf
+      options:
+        gelf-address: $LOG_GELF_ADDRESS
+
+  topic-service:
+    environment:
+      CONFIG_SERVICE_HOST: $CONFIG_SERVICE_HOST
+      CONFIG_SERVICE_PORT: $CONFIG_SERVICE_PORT
+      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
+      CONFIG_SERVICE_USERNAME: $CONFIG_SERVICE_USERNAME
+    image: proshik/thinkclearly-topic-service
+    restart: always
+    logging:
+      driver: gelf
+      options:
+        gelf-address: $LOG_GELF_ADDRESS
+
+  auth-service:
+    environment:
+      CONFIG_SERVICE_HOST: $CONFIG_SERVICE_HOST
+      CONFIG_SERVICE_PORT: $CONFIG_SERVICE_PORT
+      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
+      CONFIG_SERVICE_USERNAME: $CONFIG_SERVICE_USERNAME
+    image: proshik/thinkclearly-auth-service
+    restart: always
+    logging:
+      driver: gelf
+      options:
+        gelf-address: $LOG_GELF_ADDRESS
 
   monitoring:
     environment:
+      CONFIG_SERVICE_HOST: $CONFIG_SERVICE_HOST
+      CONFIG_SERVICE_PORT: $CONFIG_SERVICE_PORT
       CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
+      CONFIG_SERVICE_USERNAME: $CONFIG_SERVICE_USERNAME
     image: proshik/thinkclearly-monitoring
     restart: always
     ports:
       - 8787:8787
       - 8989:8989
     logging:
+      driver: gelf
       options:
-        max-size: "10m"
-        max-file: "10"
+        gelf-address: $LOG_GELF_ADDRESS
 
   sleuth:
     environment:
+      CONFIG_SERVICE_HOST: $CONFIG_SERVICE_HOST
+      CONFIG_SERVICE_PORT: $CONFIG_SERVICE_PORT
       CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
+      CONFIG_SERVICE_USERNAME: $CONFIG_SERVICE_USERNAME
     image: proshik/thinkclearly-sleuth
     restart: always
     ports:
       - 9411:9411
     logging:
+      driver: gelf
       options:
-        max-size: "10m"
-        max-file: "10"
-
-  account-service:
-    environment:
-      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
-      POSTGRES_USERNAME: $POSTGRES_USERNAME
-      POSTGRES_PASSWORD: $POSTGRES_PASSWORD
-      ACCOUNT_SERVICE_PASSWORD: $ACCOUNT_SERVICE_PASSWORD
-    image: proshik/thinkclearly-account-service
-    restart: always
-    logging:
-          options:
-            max-size: "10m"
-            max-file: "10"
-
-  topic-service:
-    environment:
-      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
-      POSTGRES_USERNAME: $POSTGRES_USERNAME
-      POSTGRES_PASSWORD: $POSTGRES_PASSWORD
-      TOPIC_SERVICE_PASSWORD: $TOPIC_SERVICE_PASSWORD
-    image: proshik/thinkclearly-topic-service
-    restart: always
-    logging:
-          options:
-            max-size: "10m"
-            max-file: "10"
-
-  auth-service:
-    environment:
-      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
-      OAUTH_TOKEN_SIGN_SECRET_KEY: $OAUTH_TOKEN_SIGN_SECRET_KEY
-      POSTGRES_USERNAME: $POSTGRES_USERNAME
-      POSTGRES_PASSWORD: $POSTGRES_PASSWORD
-      TOPIC_SERVICE_PASSWORD: $TOPIC_SERVICE_PASSWORD
-      ACCOUNT_SERVICE_PASSWORD: $ACCOUNT_SERVICE_PASSWORD
-    image: proshik/thinkclearly-auth-service
-    restart: always
-    logging:
-          options:
-            max-size: "10m"
-            max-file: "10"
+        gelf-address: $LOG_GELF_ADDRESS
