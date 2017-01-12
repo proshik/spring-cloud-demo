@@ -62,13 +62,15 @@ services:
         max-file: "10"
 
   gateway:
+    image: proshik/thinkclearly-gateway
+    env_file:
+      - .env
     environment:
       CONFIG_SERVICE_HOST: $CONFIG_SERVICE_HOST
       CONFIG_SERVICE_PORT: $CONFIG_SERVICE_PORT
       CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
       CONFIG_SERVICE_USERNAME: $CONFIG_SERVICE_USERNAME
       CONFIGURATION_ENVIRONMENT: $CONFIGURATION_ENVIRONMENT
-    image: proshik/thinkclearly-gateway
     restart: always
     links:
       - config
@@ -80,13 +82,15 @@ services:
         max-file: "10"
 
   monitoring:
+    image: proshik/thinkclearly-monitoring
+    env_file:
+      - .env
     environment:
       CONFIG_SERVICE_HOST: $CONFIG_SERVICE_HOST
       CONFIG_SERVICE_PORT: $CONFIG_SERVICE_PORT
       CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
       CONFIG_SERVICE_USERNAME: $CONFIG_SERVICE_USERNAME
       CONFIGURATION_ENVIRONMENT: $CONFIGURATION_ENVIRONMENT
-    image: proshik/thinkclearly-monitoring
     restart: always
     links:
       - config
@@ -100,13 +104,15 @@ services:
         max-file: "10"
 
   sleuth:
+    image: proshik/thinkclearly-sleuth
+    env_file:
+      - .env
     environment:
       CONFIG_SERVICE_HOST: $CONFIG_SERVICE_HOST
       CONFIG_SERVICE_PORT: $CONFIG_SERVICE_PORT
       CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
       CONFIG_SERVICE_USERNAME: $CONFIG_SERVICE_USERNAME
       CONFIGURATION_ENVIRONMENT: $CONFIGURATION_ENVIRONMENT
-    image: proshik/thinkclearly-sleuth
     restart: always
     links:
       - config
@@ -119,13 +125,15 @@ services:
         max-file: "10"
 
   account-service:
+    image: proshik/thinkclearly-account-service
+    env_file:
+      - .env
     environment:
       CONFIG_SERVICE_HOST: $CONFIG_SERVICE_HOST
       CONFIG_SERVICE_PORT: $CONFIG_SERVICE_PORT
       CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
       CONFIG_SERVICE_USERNAME: $CONFIG_SERVICE_USERNAME
       CONFIGURATION_ENVIRONMENT: $CONFIGURATION_ENVIRONMENT
-    image: proshik/thinkclearly-account-service
     restart: always
     links:
       - config
@@ -138,13 +146,15 @@ services:
         max-file: "10"
 
   topic-service:
+    image: proshik/thinkclearly-topic-service
+    env_file:
+      - .env
     environment:
       CONFIG_SERVICE_HOST: $CONFIG_SERVICE_HOST
       CONFIG_SERVICE_PORT: $CONFIG_SERVICE_PORT
       CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
       CONFIG_SERVICE_USERNAME: $CONFIG_SERVICE_USERNAME
       CONFIGURATION_ENVIRONMENT: $CONFIGURATION_ENVIRONMENT
-    image: proshik/thinkclearly-topic-service
     links:
       - config
       - postgresql
@@ -157,12 +167,14 @@ services:
         max-file: "10"
 
   auth-service:
+    image: proshik/thinkclearly-auth-service
+    env_file:
+      - .env
     environment:
       CONFIG_SERVICE_HOST: $CONFIG_SERVICE_HOST
       CONFIG_SERVICE_PORT: $CONFIG_SERVICE_PORT
       CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
       CONFIG_SERVICE_USERNAME: $CONFIG_SERVICE_USERNAME
-    image: proshik/thinkclearly-auth-service
     restart: always
     links:
       - config
