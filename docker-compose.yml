@@ -1,186 +1,86 @@
 version: '2'
 services:
-  rabbitmq:
-    image: rabbitmq:3-management
-    restart: always
-    environment:
-      RABBITMQ_HOST: $RABBITMQ_HOST
-      RABBITMQ_PASSWORD: $RABBITMQ_PASSWORD
-      RABBITMQ_USERNAME: $RABBITMQ_USERNAME
-    ports:
-      - 15672:15672
-    expose:
-      - 5672
-    logging:
-      options:
-        max-size: "10m"
-        max-file: "10"
-
-  postgresql:
-    image:  proshik/thinkclearly-postgres
-    restart: always
-    ports:
-      - 5432:5432
-    expose:
-      - 5432
-    environment:
-      POSTGRES_USERNAME: $POSTGRES_USERNAME
-      POSTGRES_PASSWORD: $POSTGRES_PASSWORD
-    logging:
-      options:
-        max-size: "10m"
-        max-file: "10"
-
-  config:
-    image: proshik/config-server
-    environment:
-      CONFIG_SERVICE_PORT: $CONFIG_SERVICE_PORT
-      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
-      CONFIG_SERVICE_USERNAME: $CONFIG_SERVICE_USERNAME
-      CONFIG_SERVICE_CSV_CONFIG_REPO_URL: $CONFIG_SERVICE_CSV_CONFIG_REPO_URL
-      CONFIG_SERVICE_POSTFIX_APPLICATION: $CONFIG_SERVICE_POSTFIX_APPLICATION
-    restart: always
-    expose:
-      - $CONFIG_SERVICE_PORT
-    logging:
-      options:
-        max-size: "10m"
-        max-file: "10"
-
-  registry:
-    image: proshik/registry-server
-    environment:
-      REGISTRY_SERVICE_PORT: $REGISTRY_SERVICE_PORT
-    restart: always
-    ports:
-      - $REGISTRY_SERVICE_PORT:$REGISTRY_SERVICE_PORT
-    expose:
-      - $REGISTRY_SERVICE_PORT
-    logging:
-      options:
-        max-size: "10m"
-        max-file: "10"
-
   gateway:
     image: proshik/thinkclearly-gateway
-    env_file:
-      - .env
     environment:
       CONFIG_SERVICE_HOST: $CONFIG_SERVICE_HOST
       CONFIG_SERVICE_PORT: $CONFIG_SERVICE_PORT
       CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
       CONFIG_SERVICE_USERNAME: $CONFIG_SERVICE_USERNAME
-      CONFIGURATION_ENVIRONMENT: $CONFIGURATION_ENVIRONMENT
     restart: always
-    links:
-      - config
     ports:
       - 80:4000
     logging:
+      driver: gelf
       options:
-        max-size: "10m"
-        max-file: "10"
+        gelf-address: $LOG_GELF_ADDRESS
 
-  monitoring:
-    image: proshik/thinkclearly-monitoring
-    env_file:
-      - .env
+  account-service:
+    image: proshik/thinkclearly-account-service
     environment:
       CONFIG_SERVICE_HOST: $CONFIG_SERVICE_HOST
       CONFIG_SERVICE_PORT: $CONFIG_SERVICE_PORT
       CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
       CONFIG_SERVICE_USERNAME: $CONFIG_SERVICE_USERNAME
-      CONFIGURATION_ENVIRONMENT: $CONFIGURATION_ENVIRONMENT
     restart: always
-    links:
-      - config
-      - rabbitmq
+    logging:
+      driver: gelf
+      options:
+        gelf-address: $LOG_GELF_ADDRESS
+
+  topic-service:
+    image: proshik/thinkclearly-topic-service
+    environment:
+      CONFIG_SERVICE_HOST: $CONFIG_SERVICE_HOST
+      CONFIG_SERVICE_PORT: $CONFIG_SERVICE_PORT
+      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
+      CONFIG_SERVICE_USERNAME: $CONFIG_SERVICE_USERNAME
+    restart: always
+    logging:
+      driver: gelf
+      options:
+        gelf-address: $LOG_GELF_ADDRESS
+
+  auth-service:
+    image: proshik/thinkclearly-auth-service
+    environment:
+      CONFIG_SERVICE_HOST: $CONFIG_SERVICE_HOST
+      CONFIG_SERVICE_PORT: $CONFIG_SERVICE_PORT
+      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
+      CONFIG_SERVICE_USERNAME: $CONFIG_SERVICE_USERNAME
+    restart: always
+    logging:
+      driver: gelf
+      options:
+        gelf-address: $LOG_GELF_ADDRESS
+
+  monitoring:
+    image: proshik/thinkclearly-monitoring
+    environment:
+      CONFIG_SERVICE_HOST: $CONFIG_SERVICE_HOST
+      CONFIG_SERVICE_PORT: $CONFIG_SERVICE_PORT
+      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
+      CONFIG_SERVICE_USERNAME: $CONFIG_SERVICE_USERNAME
+    restart: always
     ports:
       - 8787:8787
       - 8989:8989
     logging:
+      driver: gelf
       options:
-        max-size: "10m"
-        max-file: "10"
+        gelf-address: $LOG_GELF_ADDRESS
 
   sleuth:
     image: proshik/thinkclearly-sleuth
-    env_file:
-      - .env
     environment:
       CONFIG_SERVICE_HOST: $CONFIG_SERVICE_HOST
       CONFIG_SERVICE_PORT: $CONFIG_SERVICE_PORT
       CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
       CONFIG_SERVICE_USERNAME: $CONFIG_SERVICE_USERNAME
-      CONFIGURATION_ENVIRONMENT: $CONFIGURATION_ENVIRONMENT
     restart: always
-    links:
-      - config
-      - rabbitmq
     ports:
       - 9411:9411
     logging:
+      driver: gelf
       options:
-        max-size: "10m"
-        max-file: "10"
-
-  account-service:
-    image: proshik/thinkclearly-account-service
-    env_file:
-      - .env
-    environment:
-      CONFIG_SERVICE_HOST: $CONFIG_SERVICE_HOST
-      CONFIG_SERVICE_PORT: $CONFIG_SERVICE_PORT
-      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
-      CONFIG_SERVICE_USERNAME: $CONFIG_SERVICE_USERNAME
-      CONFIGURATION_ENVIRONMENT: $CONFIGURATION_ENVIRONMENT
-    restart: always
-    links:
-      - config
-      - postgresql
-      - rabbitmq
-      - auth-service
-    logging:
-      options:
-        max-size: "10m"
-        max-file: "10"
-
-  topic-service:
-    image: proshik/thinkclearly-topic-service
-    env_file:
-      - .env
-    environment:
-      CONFIG_SERVICE_HOST: $CONFIG_SERVICE_HOST
-      CONFIG_SERVICE_PORT: $CONFIG_SERVICE_PORT
-      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
-      CONFIG_SERVICE_USERNAME: $CONFIG_SERVICE_USERNAME
-      CONFIGURATION_ENVIRONMENT: $CONFIGURATION_ENVIRONMENT
-    links:
-      - config
-      - postgresql
-      - rabbitmq
-      - auth-service
-    restart: always
-    logging:
-      options:
-        max-size: "10m"
-        max-file: "10"
-
-  auth-service:
-    image: proshik/thinkclearly-auth-service
-    env_file:
-      - .env
-    environment:
-      CONFIG_SERVICE_HOST: $CONFIG_SERVICE_HOST
-      CONFIG_SERVICE_PORT: $CONFIG_SERVICE_PORT
-      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
-      CONFIG_SERVICE_USERNAME: $CONFIG_SERVICE_USERNAME
-    restart: always
-    links:
-      - config
-      - postgresql
-      - rabbitmq
-    logging:
-      options:
-        max-size: "10m"
-        max-file: "10"
+        gelf-address: $LOG_GELF_ADDRESS
