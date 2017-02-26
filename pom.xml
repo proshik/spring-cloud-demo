@@ -11,11 +11,7 @@
     <modules>
         <module>account-service</module>
         <module>topic-service</module>
-        <module>config</module>
-        <module>registry</module>
-        <module>monitoring</module>
         <module>gateway</module>
-        <module>sleuth</module>
     </modules>
 
 </project>
