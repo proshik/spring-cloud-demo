@@ -9,9 +9,8 @@
     <name>thinkclearly</name>
 
     <modules>
-        <module>topic-service</module>
         <module>account-service</module>
-        <module>auth-service</module>
+        <module>topic-service</module>
         <module>config</module>
         <module>registry</module>
         <module>monitoring</module>

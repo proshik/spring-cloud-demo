@@ -1,10 +1,10 @@
 package ru.proshik.thinkclearly.account.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import java.time.LocalDateTime;
+import org.hibernate.annotations.GenericGenerator;
+
+import javax.persistence.*;
+
+import static org.hibernate.id.enhanced.SequenceStyleGenerator.SEQUENCE_PARAM;
 
 /**
  * Created by proshik on 20.11.16.
@@ -14,17 +14,12 @@ import java.time.LocalDateTime;
 public class Account {
 
     @Id
-    @Column(name = "username", updatable = false, nullable = false, unique = true)
-    private String username;
-
-    @Column(name = "created_date", updatable = false, nullable = false)
-    private LocalDateTime createdDate;
-
-    @Column(name = "first_name")
-    private String firstName;
-
-    @Column(name = "last_name")
-    private String lastName;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "account_seq")
+    @GenericGenerator(
+            name = "account_seq",
+            strategy = "enhanced-sequence",
+            parameters = @org.hibernate.annotations.Parameter(name = SEQUENCE_PARAM, value = "account_seq"))
+    private Long id;
 
     @Column(name = "email", nullable = false)
     private String email;
@@ -32,23 +27,27 @@ public class Account {
     @Column(name = "confirm_email")
     private Boolean confirmEmail = Boolean.FALSE;
 
+    @Column(name = "first_name")
+    private String firstName;
+
+    @Column(name = "last_name")
+    private String lastName;
+
+//    @OneToOne
+//    @JoinColumn(name = "users_id")
+//    private User user;
+
     public Account() {
     }
 
-    public Account(LocalDateTime createdDate, String username, String firstName, String lastName, String email) {
-        this.username = username;
-        this.createdDate = createdDate;
+    public Account(String email, String firstName, String lastName) {
+        this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.email = email;
     }
 
-    public LocalDateTime getCreatedDate() {
-        return createdDate;
-    }
-
-    public String getUsername() {
-        return username;
+    public Long getId() {
+        return id;
     }
 
     public String getEmail() {
@@ -65,5 +64,9 @@ public class Account {
 
     public String getLastName() {
         return lastName;
+    }
+
+    public void setConfirmEmail(Boolean confirmEmail) {
+        this.confirmEmail = confirmEmail;
     }
 }

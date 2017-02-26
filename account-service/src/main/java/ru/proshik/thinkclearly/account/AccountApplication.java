@@ -7,6 +7,8 @@ import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.netflix.feign.EnableFeignClients;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 
@@ -17,12 +19,13 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
  * <p>
  * -Dspring.profiles.active=dev
  */
+@EnableWebSecurity
 @EnableFeignClients
 @EnableEurekaClient
-@EnableOAuth2Client
 @EnableResourceServer
 @EnableCircuitBreaker
 @SpringBootApplication
+@EnableAuthorizationServer
 @EnableConfigurationProperties
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class AccountApplication {

@@ -1,28 +1,35 @@
-package ru.proshik.thinkclearly.auth_service.repository.model;
+package ru.proshik.thinkclearly.account.model;
 
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.id.enhanced.SequenceStyleGenerator;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Collection;
 
 /**
- * Created by proshik on 25.07.16.
+ * Created by proshik on 26.02.17.
  */
 @Entity
 @Table(name = "users")
 public class User implements UserDetails {
 
     @Id
-    @Column(name = "username", updatable = false, nullable = false, unique = true)
-    private String username;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "users_seq")
+    @GenericGenerator(
+            name = "users_seq",
+            strategy = "enhanced-sequence",
+            parameters =
+            @org.hibernate.annotations.Parameter(name = SequenceStyleGenerator.SEQUENCE_PARAM, value = "users_seq"))
+    private Long id;
 
     @Column(name = "created_date", updatable = false, nullable = false)
     private LocalDateTime createdDate;
+
+    @Column(name = "username", updatable = false, nullable = false, unique = true)
+    private String username;
 
     @Column(name = "password", nullable = false)
     private String password;
@@ -30,13 +37,30 @@ public class User implements UserDetails {
     @Column(name = "enabled", nullable = false)
     private Boolean enabled = Boolean.TRUE;
 
+    @OneToOne(orphanRemoval = true, cascade = CascadeType.ALL)
+    @JoinColumn(name = "account_id")
+    private Account account;
+
     public User() {
     }
 
-    public User(LocalDateTime createdDate, String username, String password) {
+    public User(LocalDateTime createdDate, String username, String password, Account account) {
         this.createdDate = createdDate;
         this.username = username;
         this.password = password;
+        this.account = account;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public LocalDateTime getCreatedDate() {
+        return createdDate;
+    }
+
+    public Account getAccount() {
+        return account;
     }
 
     @Override
@@ -73,13 +97,4 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return enabled;
     }
-
-    public LocalDateTime getCreatedDate() {
-        return createdDate;
-    }
-
-    public Boolean getEnabled() {
-        return enabled;
-    }
-
 }

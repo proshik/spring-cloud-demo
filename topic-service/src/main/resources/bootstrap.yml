@@ -73,7 +73,7 @@ account-service:
 
 auth-service:
   ribbon:
-    listOfServers: localhost:5000
+    listOfServers: localhost:9020
 
 hystrix:
   command:
@@ -85,17 +85,17 @@ hystrix:
 security:
   oauth2:
     resource:
-      user-info-uri: http://localhost:5000/uaa/users/current
+      user-info-uri: http://localhost:9020/users/current
     client:
       clientId: topic-service
       clientSecret: password
-      accessTokenUri: http://localhost:5000/uaa/oauth/token
+      accessTokenUri: http://localhost:9020/oauth/token
       grant-type: client_credentials
       scope: server
   basic:
     enabled: false
 #for disable oauth endpoints security
-  ignored: /**
+#  ignored: /**
 
 #log-config
 logging:

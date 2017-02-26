@@ -4,13 +4,14 @@ import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import feign.RetryableException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-import ru.proshik.thinkclearly.account.dto.AccountOut;
-import ru.proshik.thinkclearly.account.dto.AccountRegistrationIn;
+import ru.proshik.thinkclearly.account.dto.AccountRegistrationRequest;
+import ru.proshik.thinkclearly.account.dto.AccountShortResponse;
 import ru.proshik.thinkclearly.account.exception.AccountAlreadyExistsException;
-import ru.proshik.thinkclearly.account.exception.PasswordNotEqualstConfirmPasswordException;
-import ru.proshik.thinkclearly.account.service.AccountService;
+import ru.proshik.thinkclearly.account.exception.PasswordNotEqualsConfirmPasswordException;
+import ru.proshik.thinkclearly.account.service.UserServiceImpl;
 
 import javax.validation.Valid;
 import java.security.Principal;
@@ -23,19 +24,19 @@ import java.security.Principal;
 public class AccountController {
 
     @Autowired
-    private AccountService accountService;
+    private UserServiceImpl userService;
 
     @HystrixCommand
     @RequestMapping(method = RequestMethod.GET)
-    public AccountOut getAccount(@AuthenticationPrincipal Principal principal) {
-        return accountService.getAccount(principal.getName());
+    public AccountShortResponse getAccount(@AuthenticationPrincipal Principal principal) {
+        return userService.loadAccountInfo(principal.getName());
     }
 
     @HystrixCommand
     @RequestMapping(method = RequestMethod.POST)
-    public void createUser(@Valid @RequestBody AccountRegistrationIn body) {
+    public void createUser(@Valid @RequestBody AccountRegistrationRequest body) {
         validate(body);
-        accountService.create(body);
+        userService.createUser(body);
     }
 
     @ExceptionHandler(AccountAlreadyExistsException.class)
@@ -49,9 +50,9 @@ public class AccountController {
     public void passwordNotEqualsConfirmPasswordExceptionHandler() {
     }
 
-    private void validate(AccountRegistrationIn body) {
+    private void validate(AccountRegistrationRequest body) {
         if (!body.getPassword().equals(body.getConfirmPassword())) {
-            throw new PasswordNotEqualstConfirmPasswordException("Password not equals confirm password value");
+            throw new PasswordNotEqualsConfirmPasswordException("Password not equals confirm password value");
         }
     }
 }

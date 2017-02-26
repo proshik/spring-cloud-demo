@@ -3,17 +3,17 @@ package ru.proshik.thinkclearly.account.dto;
 /**
  * Created by proshik on 27.11.16.
  */
-public class AccountOut {
+public class AccountShortResponse {
 
     private String username;
     private String firstName;
     private String lastName;
     private String email;
 
-    public AccountOut() {
+    public AccountShortResponse() {
     }
 
-    public AccountOut(String username, String firstName, String lastName, String email) {
+    public AccountShortResponse(String username, String firstName, String lastName, String email) {
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;

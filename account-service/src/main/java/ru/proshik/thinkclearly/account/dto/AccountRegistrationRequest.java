@@ -2,17 +2,24 @@ package ru.proshik.thinkclearly.account.dto;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
-
-import javax.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.NotBlank;
 
 /**
  * Created by proshik on 26.07.16.
  */
-public class AccountRegistrationIn {
+public class AccountRegistrationRequest {
 
-    @NotNull
+    @NotBlank
     @Length(min = 3, max = 20)
     private String username;
+
+    @NotBlank
+    @Length(min = 6, max = 40)
+    private String password;
+
+    @NotBlank
+    @Length(min = 6, max = 40)
+    private String confirmPassword;
 
     @Length(max = 50)
     private String firstName;
@@ -21,16 +28,8 @@ public class AccountRegistrationIn {
     private String lastName;
 
     @Email
-    @NotNull
+    @NotBlank
     private String email;
-
-    @NotNull
-    @Length(min = 6, max = 40)
-    private String password;
-
-    @NotNull
-    @Length(min = 6, max = 40)
-    private String confirmPassword;
 
     public String getUsername() {
         return username;
