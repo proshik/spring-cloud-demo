@@ -10,7 +10,7 @@ import ru.proshik.thinkclearly.topic.model.ResourceOut;
  * Created by proshik on 04.10.16.
  */
 @Component
-@FeignClient("account-service")
+@FeignClient("thinkclearly-account-service")
 public interface AccountClient {
 
     @RequestMapping(method = RequestMethod.GET, value = "/v1/account")

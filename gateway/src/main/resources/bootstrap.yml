@@ -1,7 +1,7 @@
 spring:
   profiles: default
   application:
-    name: thinkclearly_gateway-service
+    name: thinkclearly-gateway-service
     index: ${vcap.application.instance_id:${spring.application.instance_id:${random.value}}}
   cloud:
     config:
@@ -19,7 +19,7 @@ spring:
 spring:
   profiles: dev
   application:
-    name: thinkclearly_account-service
+    name: thinkclearly-gateway-service
     index: ${vcap.application.instance_id:${spring.application.instance_id:${random.value}}}
   cloud:
     config:
@@ -34,13 +34,13 @@ server:
 
 zuul:
   routes:
-    thinkclearly_topic-service:
+    thinkclearly-topic-service:
       path: /**/topic/**
       url: http://localhost:9010
       stripPrefix: false
       sensitiveHeaders: Cookie,Set-Cookie
 
-    thinkclearly_account-service:
+    thinkclearly-account-service:
       path: /**/account/**
       url: http://localhost:9020
       stripPrefix: false

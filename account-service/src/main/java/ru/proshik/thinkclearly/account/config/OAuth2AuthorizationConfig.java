@@ -57,6 +57,7 @@ public class OAuth2AuthorizationConfig extends AuthorizationServerConfigurerAdap
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         endpoints
+                .pathMapping("/oauth/token", "/v1/account/oauth/token")
                 .tokenStore(jwtTokenStore())
                 .authenticationManager(authenticationManager)
                 .accessTokenConverter(accessTokenConverter())
