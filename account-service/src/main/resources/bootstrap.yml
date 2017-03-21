@@ -27,6 +27,11 @@ spring:
       discovery:
         enabled: false
     bus:
+      enabled: false
+      ack:
+        enabled: false
+      refresh:
+        enabled: false
       env:
         enabled: false
   sleuth:
@@ -55,6 +60,9 @@ spring:
     test-on-return: true
     min-idle: 2
     validation-query: select 1
+  batch:
+    initializer:
+      enabled: false
 
 liquibase:
   change-log: classpath:db-changelog.xml
@@ -64,10 +72,10 @@ server:
 
 logging:
   level:
-    org.springframework: INFO
+    org.springframework: DEBUG
     org.springframework.security: DEBUG
-    org.hibernate.sql: INFO
-    org.hibernate.type: INFO
+    org.hibernate.sql: DEBUG
+    org.hibernate.type: DEBUG
 
 eureka:
   client:

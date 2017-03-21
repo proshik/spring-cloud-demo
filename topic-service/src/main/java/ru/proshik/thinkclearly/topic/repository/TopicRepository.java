@@ -23,9 +23,9 @@ public interface TopicRepository extends JpaRepository<Topic, Long> {
     @Query(value = "UPDATE Topic SET rating = rating + 1 where id = :topicId")
     void incrementRating(@Param("topicId") Long topicId);
 
-    @Query(value = "select t from Topic t join fetch t.tags tg where t.id = :topicId")
+    @Query(value = "select t from Topic t left join fetch t.tags tg where t.id = :topicId")
     Topic findTopicWithTags(@Param("topicId") Long topicId);
 
-    @Query(value = "select t from Topic t join fetch t.tags tg")
+    @Query(value = "select t from Topic t left join fetch t.tags tg")
     List<Topic> findTopicsWithTags(Pageable pageable);
 }

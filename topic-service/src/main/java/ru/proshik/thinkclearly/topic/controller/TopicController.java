@@ -63,7 +63,7 @@ public class TopicController {
             return ResponseEntity.ok(toRestOut(topic));
         }
 
-        return ResponseEntity.badRequest().build();
+        return ResponseEntity.notFound().build();
     }
 
     @HystrixCommand
