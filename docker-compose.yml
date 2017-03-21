@@ -70,17 +70,17 @@ services:
       options:
         gelf-address: $LOG_GELF_ADDRESS
 
-  sleuth:
-    image: proshik/thinkclearly-sleuth
-    environment:
-      CONFIG_SERVICE_HOST: $CONFIG_SERVICE_HOST
-      CONFIG_SERVICE_PORT: $CONFIG_SERVICE_PORT
-      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
-      CONFIG_SERVICE_USERNAME: $CONFIG_SERVICE_USERNAME
-    restart: always
-    ports:
-      - 9411:9411
-    logging:
-      driver: gelf
-      options:
-        gelf-address: $LOG_GELF_ADDRESS
+#  sleuth:
+#    image: proshik/thinkclearly-sleuth
+#    environment:
+#      CONFIG_SERVICE_HOST: $CONFIG_SERVICE_HOST
+#      CONFIG_SERVICE_PORT: $CONFIG_SERVICE_PORT
+#      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
+#      CONFIG_SERVICE_USERNAME: $CONFIG_SERVICE_USERNAME
+#    restart: always
+#    ports:
+#      - 9411:9411
+#    logging:
+#      driver: gelf
+#      options:
+#        gelf-address: $LOG_GELF_ADDRESS

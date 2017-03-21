@@ -8,3 +8,8 @@ logging:
 
 liquibase:
   enabled: false
+
+auth:
+  service:
+    sign:
+      key: key
