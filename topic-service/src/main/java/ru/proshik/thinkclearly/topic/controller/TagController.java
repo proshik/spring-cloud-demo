@@ -37,6 +37,7 @@ public class TagController {
         return ResponseEntity.ok(toRestOut(tag));
     }
 
+    @HystrixCommand
     @RequestMapping(method = RequestMethod.GET, value = "{tagId}")
     public ResponseEntity get(@PathVariable(value = "tagId") Long tagId) {
 
@@ -49,6 +50,7 @@ public class TagController {
     }
 
     @GetMapping
+    @HystrixCommand
     @ResponseStatus
     public ResponseEntity findByTitle(@RequestParam(value = "title", required = true) String title) {
 

@@ -1,6 +1,8 @@
-version: '3'
+version: '2'
 services:
   gateway:
+    env_file:
+      - .env
     image: proshik/thinkclearly-gateway
     environment:
       CONFIG_SERVICE_HOST: $CONFIG_SERVICE_HOST
@@ -11,11 +13,13 @@ services:
     ports:
       - 80:4000
     logging:
-      driver: gelf
       options:
-        gelf-address: $LOG_GELF_ADDRESS
+        max-size: "10m"
+        max-file: "10"
 
   account-service:
+    env_file:
+      - .env
     image: proshik/thinkclearly-account-service
     environment:
       CONFIG_SERVICE_HOST: $CONFIG_SERVICE_HOST
@@ -24,11 +28,13 @@ services:
       CONFIG_SERVICE_USERNAME: $CONFIG_SERVICE_USERNAME
     restart: always
     logging:
-      driver: gelf
       options:
-        gelf-address: $LOG_GELF_ADDRESS
+        max-size: "10m"
+        max-file: "10"
 
   topic-service:
+    env_file:
+      - .env
     image: proshik/thinkclearly-topic-service
     environment:
       CONFIG_SERVICE_HOST: $CONFIG_SERVICE_HOST
@@ -37,38 +43,25 @@ services:
       CONFIG_SERVICE_USERNAME: $CONFIG_SERVICE_USERNAME
     restart: always
     logging:
-      driver: gelf
       options:
-        gelf-address: $LOG_GELF_ADDRESS
+        max-size: "10m"
+        max-file: "10"
 
-  auth-service:
-    image: proshik/thinkclearly-auth-service
-    environment:
-      CONFIG_SERVICE_HOST: $CONFIG_SERVICE_HOST
-      CONFIG_SERVICE_PORT: $CONFIG_SERVICE_PORT
-      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
-      CONFIG_SERVICE_USERNAME: $CONFIG_SERVICE_USERNAME
-    restart: always
-    logging:
-      driver: gelf
-      options:
-        gelf-address: $LOG_GELF_ADDRESS
-
-  monitoring:
-    image: proshik/thinkclearly-monitoring
-    environment:
-      CONFIG_SERVICE_HOST: $CONFIG_SERVICE_HOST
-      CONFIG_SERVICE_PORT: $CONFIG_SERVICE_PORT
-      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
-      CONFIG_SERVICE_USERNAME: $CONFIG_SERVICE_USERNAME
-    restart: always
-    ports:
-      - 8787:8787
-      - 8989:8989
-    logging:
-      driver: gelf
-      options:
-        gelf-address: $LOG_GELF_ADDRESS
+#  monitoring:
+#    image: proshik/thinkclearly-monitoring
+#    environment:
+#      CONFIG_SERVICE_HOST: $CONFIG_SERVICE_HOST
+#      CONFIG_SERVICE_PORT: $CONFIG_SERVICE_PORT
+#      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
+#      CONFIG_SERVICE_USERNAME: $CONFIG_SERVICE_USERNAME
+#    restart: always
+#    ports:
+#      - 8787:8787
+#      - 8989:8989
+#    logging:
+#      driver: gelf
+#      options:
+#        gelf-address: $LOG_GELF_ADDRESS
 
 #  sleuth:
 #    image: proshik/thinkclearly-sleuth

@@ -31,11 +31,12 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        UserDetails user = repository.findByUsername(username);
+        User user = repository.findByUsername(username);
 
-        if (user == null) {
+        if (user == null || !user.getAccount().getConfirmEmail()) {
             throw new UsernameNotFoundException(username);
         }
+
         return user;
     }
 
